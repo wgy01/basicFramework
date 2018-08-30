@@ -18,7 +18,7 @@
 		cursor: pointer;
 	}
 	.my-tooltip .ivu-tooltip-popper{
-		margin-left: 6px;
+		margin-left: 8px;
 	}
 </style>
 
@@ -35,43 +35,37 @@
 		:accordion="true"
 		@on-select="menuSelect"
 		>
-			
-			
-			<template v-for="item in menuList">
-				<!--一级菜单-->
-				<MenuItem v-if="item.children.length === 1 && !item.children[0].children" name="4">
-	                <Icon class="my-icon" type="ios-paper" />
-	                <span>{{item.children[0].meta.title}}</span>
-	            </MenuItem>
-	        </template>
-			
-				<!--二级菜单-->
-				<template v-for="item in menuList">
-					
-					<Submenu name="1" v-if="item.children.length > 1">
-						
-		                <template slot="title">
-		                    <Icon class="my-icon" type="ios-paper" />
-		                  	<span>{{item.meta.title}}</span>
-		                </template>
-		                
-						<template v-for="itemChildren in item.children">
-			                <MenuItem name="1-1">{{itemChildren.meta.title}}</MenuItem>
-			                <!--三级菜单-->
-			                <Submenu name="2" v-if="itemChildren.children">
-				                <template slot="title">
-				                	<span>{{itemChildren.meta.title}}</span>
-				                </template>
-				                <MenuItem name="2-1">Option 7</MenuItem>
-				                <MenuItem name="2-2">Option 8</MenuItem>
-				            </Submenu>
-						</template>
-						
-			            
-		            </Submenu>
-		            
-		        </template>
-	       
+			<!--一级菜单-->
+			<MenuItem name="3">
+                <Icon class="my-icon" type="ios-paper" />
+                <span>一级菜单</span>
+            </MenuItem>
+		
+			<!--二级菜单-->
+				
+			<Submenu name="1">
+				
+                <template slot="title">
+                    <Icon class="my-icon" type="ios-paper" />
+                  	<span>二级菜单</span>
+                </template>
+                
+                <MenuItem name="1-1">1-1</MenuItem>
+                
+                <!--三级菜单-->
+                <Submenu name="2">
+                	
+	                <template slot="title">
+	                	<span>三级菜单</span>
+	                </template>
+	                
+	                <MenuItem name="2-1">2-1</MenuItem>
+	                
+	                <MenuItem name="2-2">2-2</MenuItem>
+	                
+	            </Submenu>
+	            
+            </Submenu>
             
 		</Menu>
 		
@@ -127,7 +121,7 @@ export default {
 		
 		menuSelect(name){
 			
-			if(name == 4){
+			if(name == 3){
 				this.$refs.menuInstance.$children.forEach(item => {
 					if(item.opened){
 						item.opened = false;
@@ -151,6 +145,10 @@ export default {
 
 	},
 	mounted() { //模板被渲染完毕之后执行
+		
+		
+		this.$store.commit('menuFiltration');
+		
 //		console.log(appRouter);
 //		
 //		let traverseTree = (node) => {

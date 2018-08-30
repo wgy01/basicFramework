@@ -1,5 +1,10 @@
 <style scoped lang="less">
 </style>
+<style>
+	.dropdownTop .ivu-select-dropdown{
+		margin-top: 10px !important;
+	}
+</style>
 
 <template>
 
@@ -37,7 +42,7 @@
 		</div>
 		
 		<div style="flex-shrink: 0;height: 37px;width: 34px;background: #fff;margin-left: 1px;display: flex;align-items: center;">
-			<Dropdown placement="bottom-end" style="display: flex;">
+			<Dropdown placement="bottom-end" style="display: flex;" class="dropdownTop">
 		        <div style="display: flex;">
 	           		<Button type="text" style="padding: 0;width: 33px;height: 28px;">
 						<Icon size="20" type="ios-close-circle-outline" />

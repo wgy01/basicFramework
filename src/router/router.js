@@ -13,7 +13,7 @@ export default [
 		path: '/',
 	    redirect: '/home',
 	    meta: {//里面的参数用来做各种显示效果的判断（关键字段）
-	    	
+	    	menuHide: true,
 	    },
 	    component: Main,
 	    children: [
@@ -21,6 +21,7 @@ export default [
 		    	path: 'home',
 	            title: '首页',
 	            meta: {
+	            	menuHide: true,
 			    },
 	            component: () => import('@/views/home.vue')
 		    }
@@ -31,7 +32,8 @@ export default [
 		name: 'a',
 		meta: {
 			title: '标题名称',
-			icon: '图标名称'
+			icon: '图标名称',
+			access: [1,2],
 		},
 	    component: Main,
 		children: [
@@ -51,7 +53,8 @@ export default [
 		name: 'b',
 		meta: {
 			title: '二级目录',
-			icon: '图标名称'
+			icon: '图标名称',
+			access: [3],
 		},
 	    component: Main,
 		children: [
