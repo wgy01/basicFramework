@@ -15,31 +15,114 @@ const mainFrame = {
 			
 			let routerList = routers;//所有路由列表
 			
-			let userAccess = [3,4,2];
+			let userAccess = [1,3];//用户权限
 			
-			function abc (routerAccess,userAccess){
+			
+			
+			
+			
+//			let traverseTree = (_node) => {
+//			
+//			    if (!_node) return
+//				
+//				console.log(_node.name);
+//				
+//				if (_node.children && _node.children.length > 0) {
+//					
+//					console.log(_node.children.length);
+//					
+//					_node.children.forEach((item,index) => {
+//						
+//						traverseTree(item);
+//						
+//					})
+//					
+//			    }
+//							
+//			}
+//			
+//			appRouter.forEach((item,index) => {
+//				
+//				traverseTree(item);
+//				
+//			})
+			
+			
+			
+			
+			
+			
+			for(let i=0; i<routerList.length; i++){ //遍历路由列表
 				
-				let passed;
+				let main_item = routerList[i];
 				
-				passed = userAccess.some((item,i,arr) => {//判断是否有对应的权限
-					return routerAccess.indexOf(arr[i]) >= 0
-				});
+				if(main_item.meta.menuHide){ //在菜单中不显示的路由
+						
+					routerList.splice(i,1);
+						
+					i = -1;
+						
+				}
 				
-				return passed;
+				if(main_item.children && main_item.children.length > 0){ //有子路由的顶级路由
+					
+					if(main_item.meta.access){ //带有权限的顶级路由
+						
+						if(plant.access_decide(main_item.meta.access,userAccess)){ //权限符合的顶级路由
+							
+							for(let j=0; j<main_item.children.length; j++){//遍历一级子路由
+								
+								let children_item = main_item.children[j];
+								
+								if(children_item.meta.access){ //带有权限的一级子路由
+									
+									if(plant.access_decide(children_item.meta.access,userAccess)){ //权限符合的一级子路由
+										
+										
+										
+									}else{ //权限不符合的一级子路由
+										
+										children_item.splice(j,1);
+							
+										j = -1;
+										
+									}
+									
+								}else{ //不带有权限的一级子路由
+									
+									
+									
+								}
+								
+								if(children_item.children && children_item.children.length > 0){ //有子路由的一级子路由
+									
+								}
+								
+							}
+							
+						}else{//权限不符合的顶级路由
+							
+							routerList.splice(i,1);
+							
+							i = -1;
+							
+						}
+						
+					}else{ //不带有权限的顶级路由
+						
+						
+					}
+					
+				}else{//没有子路由的顶级路由
+					
+					routerList.splice(i,1);
+							
+					i = -1;
+					
+				}
 				
 			}
 			
-			
-			routerList.forEach((item,index,arr) => {//1
-				
-				if(item.meta.access && plant.accessJudge(item.meta.access,userAccess)){
-					
-//					console.log(item);
-					arr.splice(index,1);
-
-				}
-				
-			})
 			console.log(routerList);
 			
 		}

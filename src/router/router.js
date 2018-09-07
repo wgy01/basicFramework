@@ -8,7 +8,17 @@ import secondaryView from '@/components/secondary-view.vue'
  */
 
 export default [
-
+	
+	{
+	    path: '/login',
+	    name: 'login',
+	    meta: {
+	      title: 'Login - 登录',
+	      menuHide: true,
+	    },
+	    component: () => import('@/views/testPages/page2.vue')
+  	},
+	
 	{
 		path: '/',
 	    redirect: '/home',
@@ -27,13 +37,14 @@ export default [
 		    }
 		]
 	},
-	{//一级路由
+	//一级路由
+	{
 		path: '/a',
 		name: 'a',
 		meta: {
 			title: '标题名称',
 			icon: '图标名称',
-			access: [1,2],
+			access: [8,1,9],
 		},
 	    component: Main,
 		children: [
@@ -48,13 +59,14 @@ export default [
 			}
 		]
 	},
-	{//二级路由
+	//二级路由
+	{
 		path: '/b',
 		name: 'b',
 		meta: {
 			title: '二级目录',
 			icon: '图标名称',
-			access: [3],
+			access: [5,6,2],
 		},
 	    component: Main,
 		children: [
@@ -78,12 +90,14 @@ export default [
 			}
 		]
 	},
-	{//三级路由
+	//三级路由
+	{
 		path: '/c',
 		name: 'c',
 		meta: {
 			title: '标题名称',
-			icon: '图标名称'
+			icon: '图标名称',
+			access: [4,3],
 		},
 	    component: Main,
 		children: [
@@ -109,5 +123,14 @@ export default [
 			}
 		]
 	},
+	
+	{
+	    path: '*',
+	    name: 'error_404',
+	    meta: {
+	      menuHide: true,
+	    },
+	    component: () => import('@/views/testPages/page3.vue')
+	}
 	
 ]
