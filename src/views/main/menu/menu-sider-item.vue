@@ -1,0 +1,66 @@
+<template>
+	
+	<Submenu :name="mainItem.name">
+		                	
+        <template slot="title">
+        	<Icon type="ios-paper" />
+        	<span>{{mainItem.meta.title}}</span>
+        </template>
+        
+        <template v-for="item in mainItem.children">
+        	
+        	<template v-if="item.children && item.children.length === 1">
+        		
+        		<menu-sider-item v-if="showChildren(item)" :mainItem="item"></menu-sider-item>
+        		
+	        	<MenuItem v-else :name="item.name">
+	                <Icon :type="item.meta.icon" />
+	                <span>{{item.meta.title}}</span>
+	            </MenuItem>
+        		
+        	</template>
+        	
+        	<template v-else>
+        		
+        		<menu-sider-item v-if="showChildren(item)" :mainItem="item"></menu-sider-item>
+        		
+	        	<MenuItem v-else :name="item.name">
+	                <Icon :type="item.meta.icon" />
+	                <span>{{item.meta.title}}</span>
+	            </MenuItem>
+		        
+        	</template>
+        	
+        </template>
+        
+    </Submenu>
+    
+</template>
+
+<script>
+
+import mixin from './mixin';//重用的代码块
+
+export default {
+	
+	name: 'menuSiderItem',//组件递归必须有这个name属性(相当于import)
+	
+	mixins: [ mixin ],
+	
+	props: {
+		
+		mainItem: {
+			type: Object,
+			default: () => {}
+		},
+		
+	},
+	methods: { //方法
+		
+	}
+	
+}
+</script>
+
+<style>
+</style>

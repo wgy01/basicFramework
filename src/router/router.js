@@ -42,9 +42,8 @@ export default [
 		path: '/a',
 		name: 'a',
 		meta: {
-			title: '标题名称',
-			icon: '图标名称',
-			access: [8,1,9],
+			title: '一级菜单1',
+			icon: 'ios-paper',
 		},
 	    component: Main,
 		children: [
@@ -52,8 +51,8 @@ export default [
 				path: 'a1',
 				name: 'a1',
 				meta: {
-					title: '页面1',
-					icon: '图标名称'
+					title: '一级菜单1-1',
+					icon: 'ios-paper',
 				},
 				component: () => import('@/views/testPages/page1.vue')
 			}
@@ -64,9 +63,8 @@ export default [
 		path: '/b',
 		name: 'b',
 		meta: {
-			title: '二级目录',
-			icon: '图标名称',
-			access: [5,6,2],
+			title: '二级菜单1',
+			icon: 'ios-paper',
 		},
 	    component: Main,
 		children: [
@@ -74,8 +72,8 @@ export default [
 				path: 'b1',
 				name: 'b1',
 				meta: {
-					title: '页面1',
-					icon: '图标名称'
+					title: '1-1',
+					icon: 'ios-paper',
 				},
 				component: () => import('@/views/testPages/page1.vue')
 			},
@@ -83,8 +81,8 @@ export default [
 				path: 'b2',
 				name: 'b2',
 				meta: {
-					title: '页面2',
-					icon: '图标名称'
+					title: '1-2',
+					icon: 'ios-paper'
 				},
 				component: () => import('@/views/testPages/page2.vue')
 			}
@@ -95,9 +93,9 @@ export default [
 		path: '/c',
 		name: 'c',
 		meta: {
-			title: '标题名称',
-			icon: '图标名称',
-			access: [4,3],
+			title: '二级菜单2',
+			icon: 'ios-paper',
+			showAlways: true,//永远显示为二级菜单的路由（如果这个路由的子路由长度为1设置该属性后不会变成一级菜单反之）
 		},
 	    component: Main,
 		children: [
@@ -105,8 +103,9 @@ export default [
 				path: 'c1',
 				name: 'c1',
 				meta: {
-					title: '标题名称',
-					icon: '图标名称'
+					title: '2-1',
+					icon: 'ios-paper',
+					showAlways: true,
 				},
 				component: secondaryView,
 				children: [
@@ -114,13 +113,13 @@ export default [
 						path: 'c1-1',
 						name: 'c1-1',
 						meta: {
-							title: '页面3',
-							icon: '图标名称'
+							title: '三级菜单1',
+							icon: 'ios-paper',
 						},
 						component: () => import('@/views/testPages/page3.vue')
-					}
+					},
 				]
-			}
+			},
 		]
 	},
 	

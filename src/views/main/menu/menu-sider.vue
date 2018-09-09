@@ -25,47 +25,40 @@
 <template>
 
 	<div>
-
+		
 		<Menu
 		ref="menuInstance"
 		v-show="!isCollapsed"
-		active-name="1"
 		theme="dark"
 		width="auto"
 		:accordion="true"
 		@on-select="menuSelect"
 		>
-			<!--一级菜单-->
-			<MenuItem name="3">
-                <Icon class="my-icon" type="ios-paper" />
-                <span>一级菜单</span>
-            </MenuItem>
-		
-			<!--二级菜单-->
+			<template v-for="item in menuList">
 				
-			<Submenu name="1">
+				<template v-if="item.children && item.children.length === 1">
+					
+					<menu-sider-item v-if="showChildren(item)" :mainItem="item"></menu-sider-item>
+					
+					<MenuItem v-else :name="item.name">
+		                <Icon :type="item.meta.icon" />
+		                <span>{{item.meta.title}}</span>
+		            </MenuItem>
+					
+				</template>
 				
-                <template slot="title">
-                    <Icon class="my-icon" type="ios-paper" />
-                  	<span>二级菜单</span>
-                </template>
-                
-                <MenuItem name="1-1">1-1</MenuItem>
-                
-                <!--三级菜单-->
-                <Submenu name="2">
-                	
-	                <template slot="title">
-	                	<span>三级菜单</span>
-	                </template>
-	                
-	                <MenuItem name="2-1">2-1</MenuItem>
-	                
-	                <MenuItem name="2-2">2-2</MenuItem>
-	                
-	            </Submenu>
+				<template v-else>
+					
+					<menu-sider-item v-if="showChildren(item)" :mainItem="item"></menu-sider-item>
+					
+					<MenuItem v-else :name="item.name">
+		                <Icon :type="item.meta.icon" />
+		                <span>{{item.meta.title}}</span>
+		            </MenuItem>
+					
+				</template>
 	            
-            </Submenu>
+            </template>
             
 		</Menu>
 		
@@ -91,12 +84,20 @@
 
 <script>
 
-import routers from '@/router/router.js'
+import menuSiderItem from './menu-sider-item.vue';
+
+import mixin from './mixin';//重用的代码块
 
 export default {
+	
+	name: 'menuSider',
+	
+	mixins: [ mixin ],
+	
 	components: { //组件模板
-		
+		menuSiderItem
 	},
+	
 	props: { //组件道具（参数）
 		
 		/* ****属性用法*****
@@ -110,14 +111,23 @@ export default {
 		isCollapsed: Boolean,
 		
 	},
+	
 	data() { //数据
 		return {
 			
-			menuList: routers,
+			menuList: [],//菜单列表
 			
 		}
 	},
+	
 	methods: { //方法
+		
+		init(){//初始化
+			
+			this.$store.commit('menuFiltration');
+			this.menuList = this.$store.state.mainFrame.menuList;
+			
+		},
 		
 		menuSelect(name){
 			
@@ -142,44 +152,11 @@ export default {
 	//===================组件钩子===========================
 
 	created() { //实例被创建完毕之后执行
-
+		
+		this.init();//初始化
+		
 	},
 	mounted() { //模板被渲染完毕之后执行
-		
-		
-		this.$store.commit('menuFiltration');
-		
-//		console.log(appRouter);
-//		
-//		let traverseTree = (node) => {
-//			
-//		    if (!node) return
-//			
-//			//console.log(node.name);
-//			
-//			if (node.children && node.children.length > 0) {
-//				
-//				console.log(node.children.length);
-//				
-//				node.children.forEach((item,index) => {
-//					
-//					traverseTree(item);
-//					
-//				})
-//				
-//		    }
-//						
-//		}
-//		
-//		appRouter.forEach((item,index) => {
-//			
-//			traverseTree(item);
-//			
-//		})
-		
-		
-		
-		
 		
 	},
 
