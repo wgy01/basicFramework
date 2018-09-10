@@ -2,13 +2,13 @@
 </style>
 <style>
 	.dropdownTop .ivu-select-dropdown{
-		margin-top: 10px !important;
+		margin-top: 8px !important;
 	}
 </style>
 
 <template>
 
-	<div style="display: flex;align-items: center;">
+	<div style="display: flex;align-items: center;background: #EBEBEB;height: 38px;line-height: 38px;">
 		
 		<div style="flex-shrink: 0;height: 37px;width: 26px;background: #fff;display: flex;align-items: center;">
 			<Button type="text" style="padding: 0;width: 100%;height: 28px;float: left;">
@@ -31,7 +31,6 @@
 				<Tag type="dot" closable color="primary">标签一</Tag>
 				
 			</div>
-			
 			
 		</div>
 		

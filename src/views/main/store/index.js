@@ -7,6 +7,16 @@ const mainFrame = {
 		
 		menuList: [],//要显示的菜单列表
 		
+		openNamesArr: [],//展开的菜单数组
+		
+		breadcrumbList: [//面包屑列表
+			{
+				title: '',
+				icon: '',
+				name: '',
+			}
+		],
+		
 	},
 	
 	mutations: { //事件集,mutation是同步的
@@ -19,13 +29,13 @@ const mainFrame = {
 			
 			let traverseTree = (arr) => {//使用递归的方法遍历树
 				
-			    if (!arr) return
+			    if (!arr) return;
 				
 				for(let i=0; i<arr.length; i++){
 					
 					let item = arr[i];
 					
-					if(item.meta.menuHide){ //在菜单中不显示的路由
+					if(item.meta.menuHide){ //过滤菜单中不显示的路由
 						
 						arr.splice(i,1);
 						
@@ -33,7 +43,7 @@ const mainFrame = {
 						
 					}
 					
-					if(item.meta.access && !plant.access_decide(item.meta.access,userAccess)){//权限不符合的路由
+					if(item.meta.access && !plant.access_decide(item.meta.access,userAccess)){//过滤权限不符合的路由
 						
 						arr.splice(i,1);
 						
@@ -47,7 +57,7 @@ const mainFrame = {
 						
 				    }
 					
-					if(item.children && item.children.length <= 0){//删除children为空的路由
+					if(item.children && item.children.length <= 0){//过滤children为空的路由
 						
 						arr.splice(i,1);
 						
@@ -63,78 +73,39 @@ const mainFrame = {
 			
 			state.menuList = routerList;
 			
-//			for(let i=0; i<routerList.length; i++){ //遍历路由列表
-//				
-//				let main_item = routerList[i];
-//				
-//				if(main_item.meta.menuHide){ //在菜单中不显示的路由
-//						
-//					routerList.splice(i,1);
-//						
-//					i = -1;
-//						
-//				}
-//				
-//				if(main_item.children && main_item.children.length > 0){ //有子路由的顶级路由
-//					
-//					if(main_item.meta.access){ //带有权限的顶级路由
-//						
-//						if(plant.access_decide(main_item.meta.access,userAccess)){ //权限符合的顶级路由
-//							
-//							for(let j=0; j<main_item.children.length; j++){//遍历一级子路由
-//								
-//								let children_item = main_item.children[j];
-//								
-//								if(children_item.meta.access){ //带有权限的一级子路由
-//									
-//									if(plant.access_decide(children_item.meta.access,userAccess)){ //权限符合的一级子路由
-//										
-//										
-//										
-//									}else{ //权限不符合的一级子路由
-//										
-//										children_item.splice(j,1);
-//							
-//										j = -1;
-//										
-//									}
-//									
-//								}else{ //不带有权限的一级子路由
-//									
-//									
-//									
-//								}
-//								
-//								if(children_item.children && children_item.children.length > 0){ //有子路由的一级子路由
-//									
-//								}
-//								
-//							}
-//							
-//						}else{//权限不符合的顶级路由
-//							
-//							routerList.splice(i,1);
-//							
-//							i = -1;
-//							
-//						}
-//						
-//					}else{ //不带有权限的顶级路由
-//						
-//						
-//					}
-//					
-//				}else{//没有子路由的顶级路由
-//					
-//					routerList.splice(i,1);
-//							
-//					i = -1;
-//					
-//				}
-//				
-//			}
+		},
+		
+		setOpenNames(state,routeInstance){//设置当前展开的菜单
 			
-		}
+			state.openNamesArr = routeInstance.path.slice(1).split('/');
+			
+			state.openNamesArr.splice(state.openNamesArr.length-1,1)
+			
+		},
+		
+		setBreadcrumbList(state,routeInstance){//设置面包屑导航数据
+			
+			let routerList = routers;//所有路由列表
+			
+			let recursion = (arr) => {
+				
+				if (!arr) return;
+				
+				for(let i=0; i<arr.length; i++){
+					
+					let item = arr[i];
+					
+					if(item.children && item.children.length > 0){
+						
+						traverseTree(item.children);//递归
+						
+					}
+					
+				}
+				
+			}
+			
+		},
 		
 	},
 	

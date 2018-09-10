@@ -13,9 +13,9 @@
         		
         		<menu-sider-item v-if="showChildren(item)" :mainItem="item"></menu-sider-item>
         		
-	        	<MenuItem v-else :name="item.name">
-	                <Icon :type="item.meta.icon" />
-	                <span>{{item.meta.title}}</span>
+	        	<MenuItem v-else :name="item.children[0].name">
+	                <Icon :type="item.meta.icon || item.children[0].meta.icon" />
+	                <span>{{item.meta.title || item.children[0].meta.title}}</span>
 	            </MenuItem>
         		
         	</template>

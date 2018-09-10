@@ -7,17 +7,13 @@
 	}
 	
 	.layout-header-bar {
+		padding: 0 !important;
+		height: auto !important;
+		line-height: initial !important;
 		background: #fff;
 		box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
 	}
 	
-	.layout-logo-left {
-		width: 90%;
-		height: 30px;
-		background: #5b6270;
-		border-radius: 3px;
-		margin: 15px auto;
-	}
 	.content-box{
 		width: 100%;
 		height: 100%;
@@ -35,28 +31,24 @@
 
 		<Layout>
 			
+			<!--左侧菜单-->
 			<Sider ref="siderInstance" hide-trigger collapsible :collapsed-width="64" v-model="isCollapsed" style="height: 100vh;">
-				
 				<menu-sider :isCollapsed="isCollapsed"></menu-sider>
-
 			</Sider>
-
+			
+			<!--右侧-->
 			<Layout style="overflow: hidden;">
-
-				<Header :style="{padding: 0,height: 'auto'}" class="layout-header-bar">
-
+				
+				<!--头部-->
+				<Header class="layout-header-bar">
 					<layout-header style="height: 100%;" :isCollapsed="isCollapsed" @clickIcon="collapsedSider"></layout-header>
-
 				</Header>
-
+				
+				<!--内容-->
 				<Content style="position: relative;">
-					
 					<div class="content-box">
-						
 						<router-view/>
-						
 					</div>
-
 				</Content>
 
 			</Layout>

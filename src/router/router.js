@@ -1,6 +1,6 @@
 
-import Main from '@/views/main/main.vue'
-import secondaryView from '@/components/secondary-view.vue'
+import Main from '@/views/main/main.vue';
+import secondaryView from '@/components/secondary-view.vue';
 
 /*
  * menuHide
@@ -21,6 +21,7 @@ export default [
 	
 	{
 		path: '/',
+		name: '_home',
 	    redirect: '/home',
 	    meta: {//里面的参数用来做各种显示效果的判断（关键字段）
 	    	menuHide: true,
@@ -29,8 +30,9 @@ export default [
 	    children: [
 		    {
 		    	path: 'home',
-	            title: '首页',
+		    	name: 'home',
 	            meta: {
+	            	title: '首页',
 	            	menuHide: true,
 			    },
 	            component: () => import('@/views/home.vue')
@@ -42,8 +44,7 @@ export default [
 		path: '/a',
 		name: 'a',
 		meta: {
-			title: '一级菜单1',
-			icon: 'ios-paper',
+			breadcrumbHide: true,//面包屑导航中隐藏
 		},
 	    component: Main,
 		children: [
@@ -85,6 +86,17 @@ export default [
 					icon: 'ios-paper'
 				},
 				component: () => import('@/views/testPages/page2.vue')
+			},
+			{
+				path: 'b3',
+				name: 'b3',
+				meta: {
+					title: '1-3',
+					icon: 'ios-paper',
+					menuHide: true,
+					highlightName: 'b2',
+				},
+				component: () => import('@/views/testPages/page1.vue')
 			}
 		]
 	},
@@ -104,7 +116,7 @@ export default [
 				name: 'c1',
 				meta: {
 					title: '2-1',
-					icon: 'ios-paper',
+					icon: 'md-alert',
 					showAlways: true,
 				},
 				component: secondaryView,
@@ -118,9 +130,27 @@ export default [
 						},
 						component: () => import('@/views/testPages/page3.vue')
 					},
+//					{
+//						path: 'c1-2',
+//						name: 'c1-2',
+//						meta: {
+//							title: '三级菜单2',
+//							icon: 'ios-paper',
+//						},
+//						component: () => import('@/views/testPages/page2.vue')
+//					},
 				]
 			},
 		]
+	},
+	
+	{
+	    path: '/401',
+	    name: 'error_401',
+	    meta: {
+	      menuHide: true,
+	    },
+	    component: () => import('@/views/errorPages/error-401.vue')
 	},
 	
 	{
@@ -129,7 +159,7 @@ export default [
 	    meta: {
 	      menuHide: true,
 	    },
-	    component: () => import('@/views/testPages/page3.vue')
+	    component: () => import('@/views/errorPages/error-404.vue')
 	}
 	
 ]

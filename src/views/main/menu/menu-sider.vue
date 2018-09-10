@@ -1,24 +1,9 @@
 <style scoped lang="less">
-	.my-dropdown a{
-		display: inline-block;
-		width: 64px;
-		text-align: center;
-		padding: 10px 20px;
-		color: #fff;
-	}
-</style>
-<style>
-	.my-dropdown .ivu-select-dropdown{
-		margin-left: 4px;
-	}
 	.my-tooltip{
 		width: 100% !important;
-		padding: 10px;
+		padding: 10px 0;
 		text-align: center;
 		cursor: pointer;
-	}
-	.my-tooltip .ivu-tooltip-popper{
-		margin-left: 8px;
 	}
 </style>
 
@@ -26,11 +11,14 @@
 
 	<div>
 		
+		<!--展开-->
 		<Menu
 		ref="menuInstance"
 		v-show="!isCollapsed"
 		theme="dark"
 		width="auto"
+		:active-name="$route.meta.highlightName || $route.name"
+		:open-names="openNamesArr"
 		:accordion="true"
 		@on-select="menuSelect"
 		>
@@ -40,9 +28,9 @@
 					
 					<menu-sider-item v-if="showChildren(item)" :mainItem="item"></menu-sider-item>
 					
-					<MenuItem v-else :name="item.name">
-		                <Icon :type="item.meta.icon" />
-		                <span>{{item.meta.title}}</span>
+					<MenuItem v-else :name="item.children[0].name">
+		                <Icon :type="item.meta.icon || item.children[0].meta.icon" />
+		                <span>{{item.meta.title || item.children[0].meta.title}}</span>
 		            </MenuItem>
 					
 				</template>
@@ -62,20 +50,20 @@
             
 		</Menu>
 		
-		<div v-show="isCollapsed" style="width: 64px;margin: auto;">
-			<Dropdown class="my-dropdown" placement="right-start">
-		        <a>
-		       		<Icon size="20" type="ios-paper" />
-		        </a>
-		        <DropdownMenu slot="list">
-		            <DropdownItem>驴打滚</DropdownItem>
-		            <DropdownItem>炸酱面</DropdownItem>
-		        </DropdownMenu>
-		    </Dropdown>
+		<!--收起-->
+		<div v-show="isCollapsed">
+			
+			<template v-for="item in menuList">
+			
+				<menu-sider-min v-if="showChildren(item)" :mainItem="item" :hideTitle="true"></menu-sider-min>
+				
+			    <Tooltip v-else class="my-tooltip" placement="right">
+				    <Icon size="20" color="#fff" :type="item.meta.icon || item.children[0].meta.icon" />
+				    <div slot="content">{{item.meta.title || item.children[0].meta.title}}</div>
+			    </Tooltip>
+			    
+		   </template>
 		    
-		    <Tooltip theme="light" class="my-tooltip" content="23132" placement="right">
-			    <Icon size="20" color="#fff" type="ios-flash-outline" />
-		    </Tooltip>
 		</div>
 		
 	</div>
@@ -86,6 +74,8 @@
 
 import menuSiderItem from './menu-sider-item.vue';
 
+import menuSiderMin from './menu-sider-min.vue';
+
 import mixin from './mixin';//重用的代码块
 
 export default {
@@ -95,7 +85,8 @@ export default {
 	mixins: [ mixin ],
 	
 	components: { //组件模板
-		menuSiderItem
+		menuSiderItem,
+		menuSiderMin,
 	},
 	
 	props: { //组件道具（参数）
@@ -117,6 +108,8 @@ export default {
 			
 			menuList: [],//菜单列表
 			
+			openNamesArr: [],//展开的菜单name数组
+			
 		}
 	},
 	
@@ -124,20 +117,28 @@ export default {
 		
 		init(){//初始化
 			
+			//菜单列表
 			this.$store.commit('menuFiltration');
 			this.menuList = this.$store.state.mainFrame.menuList;
 			
+			
+			this.$store.commit('setOpenNames',this.$route);
+			this.openNamesArr = this.$store.state.mainFrame.openNamesArr;
+			console.log(this.openNamesArr);
+			console.log(this.$route);
+			
+			this.$nextTick(() => {
+				this.$refs.menuInstance.updateOpened();//手动更新展开的子目录
+				this.$refs.menuInstance.updateActiveName();//手动更新当前选择项
+			});
+			
 		},
 		
-		menuSelect(name){
+		menuSelect(name){//选择菜单（MenuItem）时触发
 			
-			if(name == 3){
-				this.$refs.menuInstance.$children.forEach(item => {
-					if(item.opened){
-						item.opened = false;
-					}
-				})
-			}
+			this.$router.push({
+                name: name
+            });
 			
 		},
 		
@@ -146,7 +147,21 @@ export default {
 		
 	},
 	watch: { //监测数据变化
-
+		
+		'$route'(){
+			
+			this.$store.commit('setOpenNames',this.$route);
+			this.openNamesArr = this.$store.state.mainFrame.openNamesArr;
+			console.log(this.openNamesArr);
+			console.log(this.$route);
+			
+			this.$nextTick(() => {
+				this.$refs.menuInstance.updateOpened();//手动更新展开的子目录
+				this.$refs.menuInstance.updateActiveName();//手动更新当前选择项
+			});
+			
+		}
+		
 	},
 
 	//===================组件钩子===========================
@@ -159,6 +174,6 @@ export default {
 	mounted() { //模板被渲染完毕之后执行
 		
 	},
-
+	
 }
 </script>
