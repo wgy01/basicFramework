@@ -76,6 +76,8 @@ import menuSiderItem from './menu-sider-item.vue';
 
 import menuSiderMin from './menu-sider-min.vue';
 
+import { mapMutations } from 'vuex'
+
 import mixin from './mixin';//重用的代码块
 
 export default {
@@ -106,7 +108,7 @@ export default {
 	data() { //数据
 		return {
 			
-			menuList: [],//菜单列表
+//			menuList: [],//菜单列表
 			
 			openNamesArr: [],//展开的菜单name数组
 			
@@ -115,12 +117,14 @@ export default {
 	
 	methods: { //方法
 		
+		...mapMutations([//映射多个mutations方法
+	      'setBreadCrumb',
+	    ]),
+		
 		init(){//初始化
 			
-			//菜单列表
-			this.$store.commit('menuFiltration');
-			this.menuList = this.$store.state.mainFrame.menuList;
-			
+			this.setBreadCrumb(this.$route.matched)
+			console.log(this.$store.state.mainFrame.breadCrumbList);
 			
 			this.$store.commit('setOpenNames',this.$route);
 			this.openNamesArr = this.$store.state.mainFrame.openNamesArr;
@@ -144,6 +148,10 @@ export default {
 		
 	},
 	computed: { //计算属性
+		
+		menuList(){
+			return this.$store.getters.menuList;
+		}
 		
 	},
 	watch: { //监测数据变化
@@ -172,7 +180,7 @@ export default {
 		
 	},
 	mounted() { //模板被渲染完毕之后执行
-		
+		console.log(this.menuList);
 	},
 	
 }

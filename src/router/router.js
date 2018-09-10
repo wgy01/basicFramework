@@ -3,7 +3,7 @@ import Main from '@/views/main/main.vue';
 import secondaryView from '@/components/secondary-view.vue';
 
 /*
- * menuHide
+ * hideMenu
  * access权限
  */
 
@@ -14,7 +14,7 @@ export default [
 	    name: 'login',
 	    meta: {
 	      title: 'Login - 登录',
-	      menuHide: true,
+	      hideMenu: true,
 	    },
 	    component: () => import('@/views/testPages/page2.vue')
   	},
@@ -24,7 +24,7 @@ export default [
 		name: '_home',
 	    redirect: '/home',
 	    meta: {//里面的参数用来做各种显示效果的判断（关键字段）
-	    	menuHide: true,
+	    	hideMenu: true,
 	    },
 	    component: Main,
 	    children: [
@@ -33,7 +33,7 @@ export default [
 		    	name: 'home',
 	            meta: {
 	            	title: '首页',
-	            	menuHide: true,
+	            	hideMenu: true,
 			    },
 	            component: () => import('@/views/home.vue')
 		    }
@@ -44,7 +44,7 @@ export default [
 		path: '/a',
 		name: 'a',
 		meta: {
-			breadcrumbHide: true,//面包屑导航中隐藏
+			hideBreadcrumb: true,//面包屑导航中隐藏
 		},
 	    component: Main,
 		children: [
@@ -93,7 +93,7 @@ export default [
 				meta: {
 					title: '1-3',
 					icon: 'ios-paper',
-					menuHide: true,
+					hideMenu: true,
 					highlightName: 'b2',
 				},
 				component: () => import('@/views/testPages/page1.vue')
@@ -148,7 +148,7 @@ export default [
 	    path: '/401',
 	    name: 'error_401',
 	    meta: {
-	      menuHide: true,
+	      hideMenu: true,
 	    },
 	    component: () => import('@/views/errorPages/error-401.vue')
 	},
@@ -157,7 +157,7 @@ export default [
 	    path: '*',
 	    name: 'error_404',
 	    meta: {
-	      menuHide: true,
+	      hideMenu: true,
 	    },
 	    component: () => import('@/views/errorPages/error-404.vue')
 	}
