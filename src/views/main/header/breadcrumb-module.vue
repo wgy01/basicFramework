@@ -16,12 +16,10 @@
 		<div style="white-space:nowrap;overflow: hidden;margin-right: 16px;">
 	
 			<Breadcrumb>
-		        <BreadcrumbItem to="/">
-		        	<Icon type="ios-home-outline"></Icon> Home
-		        	<span>Home</span>
+		        <BreadcrumbItem v-for="item in breadCrumbList" :replace="true" :to="item.to ? '/' : ''">
+		        	<Icon :type="item.icon || item.meta.icon"></Icon>
+		        	<span>{{item.meta.title}}</span>
 		        </BreadcrumbItem>
-		        <BreadcrumbItem>Components</BreadcrumbItem>
-		        <BreadcrumbItem>Breadcrumb</BreadcrumbItem>
 		    </Breadcrumb>
 	
 		</div>
@@ -51,10 +49,10 @@ export default {
 	},
 	props: {
 		
-		isCollapsed: {
-			type: Boolean,
-			default: false
-		},
+		breadCrumbList: {
+			type: Array,
+			default: () => []
+		}
 		
 	},
 	data() { //数据
@@ -65,35 +63,28 @@ export default {
 	methods: { //方法
 		
 		collapsedSider() {
-
 			this.$emit('clickIcon');
-
 		},
 		
 	},
 	computed: { //计算属性
 		
 		rotateIcon() {
-			
-			return [
-				'menu-icon',
-				this.isCollapsed ? 'rotate-icon' : ''
-			];
-			
+			return [ 'menu-icon', this.isCollapsed ? 'rotate-icon' : '' ];
 		},
 		
 	},
 	watch: { //监测数据变化
-
+		
 	},
 
 	//===================组件钩子===========================
 
 	created() { //实例被创建完毕之后执行
-
+		
 	},
 	mounted() { //模板被渲染完毕之后执行
-
+		
 	},
 
 }

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import mainFrame from '@/views/main/store'
+import app from '@/views/main/store'
 
 Vue.use(Vuex)
 
@@ -19,6 +19,6 @@ export default new Vuex.Store({
 		
 	},
 	modules:{//模板
-		mainFrame
+		app,
 	}
 })

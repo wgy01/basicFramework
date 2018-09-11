@@ -33,7 +33,7 @@
 			
 			<!--左侧菜单-->
 			<Sider ref="siderInstance" hide-trigger collapsible :collapsed-width="64" v-model="isCollapsed" style="height: 100vh;">
-				<menu-sider :isCollapsed="isCollapsed"></menu-sider>
+				<menu-sider ref='sideMenu' :menuList="menuList" :isCollapsed="isCollapsed"></menu-sider>
 			</Sider>
 			
 			<!--右侧-->
@@ -41,7 +41,12 @@
 				
 				<!--头部-->
 				<Header class="layout-header-bar">
-					<layout-header style="height: 100%;" :isCollapsed="isCollapsed" @clickIcon="collapsedSider"></layout-header>
+					<div style="height: 100%;">
+						<!--面包屑导航-->
+						<breadcrumb-module :breadCrumbList="breadCrumbList" @clickIcon="collapsedSider"></breadcrumb-module>
+						<!--tag标签导航-->
+						<tag-module :tagList="tagNavList"></tag-module>
+					</div>
 				</Header>
 				
 				<!--内容-->
@@ -50,7 +55,7 @@
 						<router-view/>
 					</div>
 				</Content>
-
+				
 			</Layout>
 			
 		</Layout>
@@ -63,12 +68,19 @@
 	
 import menuSider from './menu/menu-sider.vue'
 
-import layoutHeader from './header/layout-header.vue'
+import breadcrumbModule from './header/breadcrumb-module.vue';
+
+import tagModule from './header/tag-module.vue';
+
+import { getNewTagList } from '@/toolBox';
+
+import { mapMutations } from 'vuex';
 
 export default {
 	components: { //组件模板
 		menuSider,
-		layoutHeader,
+		breadcrumbModule,
+		tagModule,
 	},
 	props: { //组件道具（参数）
 		/* ****属性用法*****
@@ -88,27 +100,60 @@ export default {
 	},
 	methods: { //方法
 		
-		collapsedSider() {
-			
+		...mapMutations([
+			'setBreadCrumb',
+	      	'setTagNavList',
+	      	'addTag',
+		]),
+		
+		collapsedSider() {//展开或收起左侧菜单
 			this.$refs.siderInstance.toggleCollapse();
-			
 		},
 		
 	},
 	computed: { //计算属性
-
+		
+		menuList(){//菜单列表
+			return this.$store.getters.menuList;
+		},
+		
+		breadCrumbList(){//面包屑列表
+	    	return this.$store.state.app.breadCrumbList;
+	    },
+	    
+		tagNavList(){//tag列表
+	    	return this.$store.state.app.tagNavList;
+	    },
+		
 	},
 	watch: { //监测数据变化
-
+		
+		'$route'(newRoute){
+			
+			this.setBreadCrumb(newRoute.matched);
+			
+        	this.setTagNavList(getNewTagList(this.tagNavList, newRoute));
+			
+		},
+		
 	},
 
 	//===================组件钩子===========================
 
 	created() { //实例被创建完毕之后执行
-
+		
+		/**
+	     * @description 初始化设置面包屑导航和标签导航
+	     */
+	    this.setTagNavList();
+	    
+	    this.addTag({route: this.$store.state.app.homeRoute});
+	    
+	    this.setBreadCrumb(this.$route.matched);
+		
 	},
 	mounted() { //模板被渲染完毕之后执行
-
+		
 	},
 
 }

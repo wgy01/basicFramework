@@ -22,11 +22,11 @@
 
 <template>
 	
-	<Dropdown :class="hideTitle ? 'my-dropdown' : ''" placement="right-start">
+	<Dropdown @on-click="dropdownClick" :class="hideTitle ? 'my-dropdown' : ''" placement="right-start">
 				
         <a :class="hideTitle ? 'main-title' : 'ivu-dropdown-item child-title'">
         	
-       		<Icon :size="hideTitle ? 20 : 14" :type="hideTitle ? mainItem.meta.icon : childIcon" :style="{marginRight: !hideTitle ? '2px' : ''}" />
+       		<Icon :size="hideTitle ? 20 : 14" :type="hideTitle ? mainItem.icon : childIcon" :style="{marginRight: !hideTitle ? '2px' : ''}" />
        		
        		<span v-if="!hideTitle">{{childTitle}}</span>
        		
@@ -38,10 +38,10 @@
         	
         	<template v-for="item in mainItem.children">
         		
-        		<menu-sider-min v-if="showChildren(item)" :childTitle="item.meta.title" :childIcon="item.meta.icon" :mainItem="item"></menu-sider-min>
+        		<menu-sider-min v-if="showChildren(item)" :childTitle="item.meta.title" :childIcon="item.icon" :mainItem="item"></menu-sider-min>
         		
-        		<DropdownItem v-else style="display: flex;align-items: center;padding: 7px 8px;">
-       				<Icon :type="item.meta.icon" style="margin-right: 2px;" size="14" />
+        		<DropdownItem v-else :name="item.name" style="display: flex;align-items: center;padding: 7px 8px;">
+       				<Icon :type="item.icon" style="margin-right: 2px;" size="14" />
        				<span>{{item.meta.title}}</span>
         		</DropdownItem>
         		
@@ -92,6 +92,10 @@ export default {
         }
     },
     methods: {//方法
+    	
+    	dropdownClick(name){
+    		this.$emit('on-click',name)
+    	},
     	
     },
     computed: {//计算属性

@@ -18,9 +18,9 @@
 		theme="dark"
 		width="auto"
 		:active-name="$route.meta.highlightName || $route.name"
-		:open-names="openNamesArr"
+		:open-names="currentOpenNames"
 		:accordion="true"
-		@on-select="menuSelect"
+		@on-select="menuItemClick"
 		>
 			<template v-for="item in menuList">
 				
@@ -29,7 +29,7 @@
 					<menu-sider-item v-if="showChildren(item)" :mainItem="item"></menu-sider-item>
 					
 					<MenuItem v-else :name="item.children[0].name">
-		                <Icon :type="item.meta.icon || item.children[0].meta.icon" />
+		                <Icon :type="item.icon || item.children[0].icon" />
 		                <span>{{item.meta.title || item.children[0].meta.title}}</span>
 		            </MenuItem>
 					
@@ -40,7 +40,7 @@
 					<menu-sider-item v-if="showChildren(item)" :mainItem="item"></menu-sider-item>
 					
 					<MenuItem v-else :name="item.name">
-		                <Icon :type="item.meta.icon" />
+		                <Icon :type="item.icon" />
 		                <span>{{item.meta.title}}</span>
 		            </MenuItem>
 					
@@ -55,11 +55,13 @@
 			
 			<template v-for="item in menuList">
 			
-				<menu-sider-min v-if="showChildren(item)" :mainItem="item" :hideTitle="true"></menu-sider-min>
+				<menu-sider-min v-if="showChildren(item)"  @on-click="moreMenuMinClick" :mainItem="item" :hideTitle="true"></menu-sider-min>
 				
 			    <Tooltip v-else class="my-tooltip" placement="right">
-				    <Icon size="20" color="#fff" :type="item.meta.icon || item.children[0].meta.icon" />
-				    <div slot="content">{{item.meta.title || item.children[0].meta.title}}</div>
+				    <Icon size="20" color="#fff" :type="item.icon || item.children[0].icon" />
+				    <div slot="content">
+				    	<a style="color: #fff;" @click="singleMenuMinClick(item.children[0])">{{item.meta.title || item.children[0].meta.title}}</a>
+				    </div>
 			    </Tooltip>
 			    
 		   </template>
@@ -76,9 +78,7 @@ import menuSiderItem from './menu-sider-item.vue';
 
 import menuSiderMin from './menu-sider-min.vue';
 
-import { mapMutations } from 'vuex'
-
-import mixin from './mixin';//重用的代码块
+import mixin from './mixin';//组件间重用的代码块
 
 export default {
 	
@@ -101,72 +101,60 @@ export default {
 		 * 
 		 */
 		
-		isCollapsed: Boolean,
+		menuList: {
+		 	type: Array,
+		 	default: () => []
+		},
+		
+		isCollapsed:{
+		 	type: Boolean,
+		 	default: false
+		},
 		
 	},
 	
 	data() { //数据
 		return {
 			
-//			menuList: [],//菜单列表
-			
-			openNamesArr: [],//展开的菜单name数组
-			
 		}
 	},
 	
 	methods: { //方法
 		
-		...mapMutations([//映射多个mutations方法
-	      'setBreadCrumb',
-	    ]),
-		
-		init(){//初始化
-			
-			this.setBreadCrumb(this.$route.matched)
-			console.log(this.$store.state.mainFrame.breadCrumbList);
-			
-			this.$store.commit('setOpenNames',this.$route);
-			this.openNamesArr = this.$store.state.mainFrame.openNamesArr;
-			console.log(this.openNamesArr);
-			console.log(this.$route);
-			
-			this.$nextTick(() => {
-				this.$refs.menuInstance.updateOpened();//手动更新展开的子目录
-				this.$refs.menuInstance.updateActiveName();//手动更新当前选择项
-			});
-			
+		menuItemClick(menuName){//选择菜单（MenuItem）时触发
+			this.$router.push( { name: menuName } );
 		},
 		
-		menuSelect(name){//选择菜单（MenuItem）时触发
-			
-			this.$router.push({
-                name: name
-            });
-			
+		singleMenuMinClick(current){
+			this.$router.push( { name: current.name } );
+		},
+		
+		moreMenuMinClick(name){
+			this.$router.push( { name: name } );
 		},
 		
 	},
-	computed: { //计算属性
+	computed: {//计算属性
 		
-		menuList(){
-			return this.$store.getters.menuList;
-		}
+		currentOpenNames(){//设置当前展开的菜单
+			
+			let openNamesArr = this.$route.path.slice(1).split('/');
+			
+			openNamesArr.splice(openNamesArr.length-1,1);
+			
+			this.$nextTick(() => {
+				this.$refs.menuInstance.updateOpened();
+				this.$refs.menuInstance.updateActiveName();
+			});
+			
+			return openNamesArr;
+			
+		},
 		
 	},
 	watch: { //监测数据变化
 		
 		'$route'(){
-			
-			this.$store.commit('setOpenNames',this.$route);
-			this.openNamesArr = this.$store.state.mainFrame.openNamesArr;
-			console.log(this.openNamesArr);
-			console.log(this.$route);
-			
-			this.$nextTick(() => {
-				this.$refs.menuInstance.updateOpened();//手动更新展开的子目录
-				this.$refs.menuInstance.updateActiveName();//手动更新当前选择项
-			});
 			
 		}
 		
@@ -176,11 +164,9 @@ export default {
 
 	created() { //实例被创建完毕之后执行
 		
-		this.init();//初始化
-		
 	},
 	mounted() { //模板被渲染完毕之后执行
-		console.log(this.menuList);
+		
 	},
 	
 }

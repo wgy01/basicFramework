@@ -1,13 +1,13 @@
 import routers from '@/router/router.js'; //调用路由表
-import { getMenuByRouter, setBreadcrumb, getHomeRoute } from '@/toolBox'; //调用工具
+import { getMenuByRouter, setBreadcrumb, getHomeRoute, setTagNavListInLocalstorage, getTagNavListFromLocalstorage, routeHasExist } from '@/toolBox'; //调用工具
 
 const mainFrame = {
 	
 	state: {//数据
 		
-		openNamesArr: [],//展开的菜单数组
+		tagNavList: [],//tag标签列表
 		
-		homeRoute: getHomeRoute(routers),//默认首页面包屑导航
+		homeRoute: getHomeRoute(routers),//name属性等于home路由数据
 		
 		breadCrumbList: [],//面包屑导航列表
 		
@@ -15,23 +15,61 @@ const mainFrame = {
 	
 	mutations: { //事件集,mutation是同步的
 		
-		setOpenNames(state,routeInstance){//设置当前展开的菜单
+		setBreadCrumb (state, routeMatched) {//设置面包屑导航
 			
-			state.openNamesArr = routeInstance.path.slice(1).split('/');
-			
-			state.openNamesArr.splice(state.openNamesArr.length-1,1)
+	    	state.breadCrumbList = setBreadcrumb(routeMatched, state.homeRoute);
+	    	
+	    },
+	    
+	    setTagNavList(state, list) {//设置tag标签导航
+	    	
+			if(list) {
+				
+				state.tagNavList = [...list];
+				
+				setTagNavListInLocalstorage([...list]);
+				
+			}else{
+				
+				state.tagNavList = getTagNavListFromLocalstorage();
+				
+			}
 			
 		},
 		
-		setBreadCrumb (state, routeMatched) {
-	    	state.breadCrumbList = setBreadcrumb(routeMatched, state.homeRoute)
-	    },
+		addTag(state, {route,type = 'unshift'}){//添加默认的tag标签
+			
+			if(!routeHasExist(state.tagNavList, route)) {
+				
+				if(type === 'push') {
+					
+					state.tagNavList.push(route);
+					
+				}else {
+					
+					if(route.name === 'home'){
+						
+						state.tagNavList.unshift(route);
+						
+					}else{
+						
+						state.tagNavList.splice(1, 0, route);
+						
+					}
+					
+				}
+				
+				setTagNavListInLocalstorage([...state.tagNavList]);
+				
+			}
+			
+		},
 		
 	},
 	
 	getters: {//计算属性
 		
-		menuList: (state, getters) => getMenuByRouter(routers, [1,3]),//菜单列表
+		menuList: (state, getters) => getMenuByRouter(routers, [1,2]),//获取菜单列表
 		
 	},
 	

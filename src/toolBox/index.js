@@ -1,20 +1,61 @@
 
-export const accessDecide = (routerAccess,userAccess) => {//检查权限
-	
+/*
+ * 检查权限
+ * @param routerAccess 路由权限
+ * @param userAccess 用户权限
+ */
+export const accessDecide = (routerAccess,userAccess) => {
 	if((routerAccess && routerAccess.length > 0) && (userAccess && userAccess.length > 0)){
-		return userAccess.some((item,i,arr) => {
-			return routerAccess.indexOf(arr[i]) >= 0;
-		});
+		return userAccess.some((item,i,arr) => routerAccess.indexOf(arr[i]) >= 0);
 	}else{
-		return true
+		return true;
 	}
-		
 }
 
-export const getMenuByRouter = (routerList, userAccess) => {//设置菜单列表
-	
+
+
+
+
+
+/**
+ * @param {*} obj1 对象
+ * @param {*} obj2 对象
+ * @description 判断两个对象是否相等，这两个对象的值只能是数字或字符串
+ */
+export const objEqual = (obj1, obj2) => {
+	const keysArr1 = Object.keys(obj1)
+	const keysArr2 = Object.keys(obj2)
+	if(keysArr1.length !== keysArr2.length) return false
+	else if(keysArr1.length === 0 && keysArr2.length === 0) return true
+	/* eslint-disable-next-line */
+	else return !keysArr1.some(key => obj1[key] != obj2[key])
+}
+
+/**
+ * @description 根据name/params/query判断两个路由对象是否相等
+ * @param {*} route1 路由对象
+ * @param {*} route2 路由对象
+ */
+export const routeEqual = (route1, route2) => {
+	const params1 = route1.params || {}
+	const params2 = route2.params || {}
+	const query1 = route1.query || {}
+	const query2 = route2.query || {}
+	return(route1.name === route2.name) && objEqual(params1, params2) && objEqual(query1, query2)
+}
+
+
+
+
+
+
+/*
+ * 过滤菜单列表
+ * @param routerList 路由列表
+ * @param userAccess 用户权限
+ */
+export const getMenuByRouter = (routerList, userAccess) => {
 	let res = [];
-	
 	routerList.forEach(item => {
 		if(!item.meta || (item.meta && !item.meta.hideMenu)) {
 			let obj = {
@@ -23,20 +64,24 @@ export const getMenuByRouter = (routerList, userAccess) => {//设置菜单列表
 				meta: item.meta
 			}
 			if(((item.children && item.children.length !== 0) || (item.meta && item.meta.showAlways)) && accessDecide(item.meta.access, userAccess)){
-				obj.children = getMenuByRouter(item.children, userAccess)
+				obj.children = getMenuByRouter(item.children, userAccess);
 			}
 			if(item.meta && item.meta.href) obj.href = item.meta.href
 			if(accessDecide(item.meta.access, userAccess)) res.push(obj)
 		}
 	})
-	
 	return res;
-	
 }
 
-export const pathImperfect = (routeList, routeInstance, routeName, next) => {//路径不完整
+
+
+
+/*
+ * 路径不完整
+ */
+export const pathImperfect = (routeList, routeInstance, routeName, next) => {
 	
-	let traverseTree = (arr) => {//使用递归的方法遍历树
+	let traverseTree = (arr) => {
 		
 		if (!arr) return;
 		
@@ -68,7 +113,15 @@ export const pathImperfect = (routeList, routeInstance, routeName, next) => {//�
 	
 }
 
-export const setBreadcrumb = (routeMatched, homeRoute) => {//设置面包屑导航
+
+
+
+/*
+ * 设置面包屑导航
+ * @param routeMatched 路由matched属性
+ * @param homeRoute 路由name属性等于home的数据
+ */
+export const setBreadcrumb = (routeMatched, homeRoute) => {
 	let res = routeMatched.filter(item => {
 		return item.meta === undefined || !item.meta.hideBreadcrumb
 	}).map(item => {
@@ -85,6 +138,14 @@ export const setBreadcrumb = (routeMatched, homeRoute) => {//设置面包屑导�
 	return [Object.assign(homeRoute, {to: homeRoute.path}), ...res]
 }
 
+
+
+
+
+/*
+ * 获取name属性等于home的路由
+ * @param routerList 路由列表
+ */
 export const getHomeRoute = routerList => {
 	let i = -1
 	let len = routerList.length
@@ -101,21 +162,28 @@ export const getHomeRoute = routerList => {
 	return homeRoute
 }
 
+
+
+
+
 /**
- * @description 本地存储和获取标签导航列表
+ * 设置本地存储的标签导航列表
  */
 export const setTagNavListInLocalstorage = list => {
-  localStorage.tagNaveList = JSON.stringify(list)
-}
-/**
- * @returns {Array} 其中的每个元素只包含路由原信息中的name, path, meta三项
- */
-export const getTagNavListFromLocalstorage = () => {
-  const list = localStorage.tagNaveList
-  return list ? JSON.parse(list) : []
+  localStorage.tagNaveList = JSON.stringify(list);
 }
 
 /**
+ * @description 获取本地存储中的标签导航列表
+ * @returns {Array} 其中的每个元素只包含路由原信息中的name, path, meta三项
+ */
+export const getTagNavListFromLocalstorage = () => {
+  const list = localStorage.tagNaveList;
+  return list ? JSON.parse(list) : [];
+}
+
+/**
+ * 获取新的tag导航列表
  * @param {*} list 现有标签导航列表
  * @param {*} newRoute 新添加的路由原信息对象
  * @description 如果该newRoute已经存在则不再添加
@@ -128,21 +196,38 @@ export const getNewTagList = (list, newRoute) => {
   return newList
 }
 
+
+
+
+
 /**
- * @param {Array} list 标签列表
- * @param {String} name 当前关闭的标签的name
+ * @param {Number} times 回调函数需要执行的次数
+ * @param {Function} callback 回调函数
  */
-export const getNextRoute = (list, route) => {
-  let res = {}
-  if (list.length === 2) {
-    res = getHomeRoute(list)
-  } else {
-    const index = list.findIndex(item => routeEqual(item, route))
-    if (index === list.length - 1) res = list[list.length - 2]
-    else res = list[index + 1]
-  }
-  return res
+export const doCustomTimes = (times, callback) => {
+	let i = -1
+	while(++i < times) {
+		callback(i)
+	}
 }
+
+/**
+ * 判断打开的标签列表里是否已存在这个新添加的路由对象
+ * @param tagNavList tag标签列表
+ * @param routeItem 路由项目
+ */
+export const routeHasExist = (tagNavList, routeItem) => {
+	let len = tagNavList.length
+	let res = false
+	doCustomTimes(len, (index) => {
+		if(routeEqual(tagNavList[index], routeItem)) res = true
+	})
+	return res
+}
+
+
+
+
 
 /**
  * 权鉴
@@ -151,13 +236,13 @@ export const getNextRoute = (list, route) => {
  * @param {*} routes 路由列表
  * @description 用户是否可跳转到该页
  */
-export const canTurnTo = (name, access, routes) => {
+export const canTurnTo = (name, userAccess, routes) => {
   const routePermissionJudge = (list) => {
     return list.some(item => {
       if (item.children && item.children.length) {
         return routePermissionJudge(item.children)
       } else if (item.name === name) {
-        return hasAccess(access, item)
+        return accessDecide = (item.meta.access,userAccess);
       }
     })
   }

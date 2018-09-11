@@ -2,9 +2,15 @@
 import Main from '@/views/main/main.vue';
 import secondaryView from '@/components/secondary-view.vue';
 
-/*
- * hideMenu
- * access权限
+/**
+ * meta属性:
+ * 
+ * @param {Boolean : false} hideMenu 设置不在左侧菜单显示的路由
+ * @param {Array} access 设置路由权限[1,2,3...] 或 ['admin','user'...]
+ * @param {Boolean : false} showAlways 设置路由永远显示为二级菜单
+ * @param {Boolean : false} hideBreadcrumb 设置不显示在面包屑导航中
+ * @param {String : '定向到xxx路由的name'} highlightName 点击该路由后在菜单中高亮重定向
+ * 
  */
 
 export default [
@@ -34,6 +40,7 @@ export default [
 	            meta: {
 	            	title: '首页',
 	            	hideMenu: true,
+	            	icon: 'ios-paper',
 			    },
 	            component: () => import('@/views/home.vue')
 		    }
@@ -53,7 +60,7 @@ export default [
 				name: 'a1',
 				meta: {
 					title: '一级菜单1-1',
-					icon: 'ios-paper',
+					icon: 'md-alarm',
 				},
 				component: () => import('@/views/testPages/page1.vue')
 			}
@@ -64,8 +71,8 @@ export default [
 		path: '/b',
 		name: 'b',
 		meta: {
-			title: '二级菜单1',
-			icon: 'ios-paper',
+			title: '二级菜单111',
+			icon: 'md-alarm',
 		},
 	    component: Main,
 		children: [
@@ -74,7 +81,7 @@ export default [
 				name: 'b1',
 				meta: {
 					title: '1-1',
-					icon: 'ios-paper',
+					icon: 'md-alarm',
 				},
 				component: () => import('@/views/testPages/page1.vue')
 			},
@@ -83,7 +90,7 @@ export default [
 				name: 'b2',
 				meta: {
 					title: '1-2',
-					icon: 'ios-paper'
+					icon: 'md-alarm',
 				},
 				component: () => import('@/views/testPages/page2.vue')
 			},
@@ -106,8 +113,8 @@ export default [
 		name: 'c',
 		meta: {
 			title: '二级菜单2',
-			icon: 'ios-paper',
-			showAlways: true,//永远显示为二级菜单的路由（如果这个路由的子路由长度为1设置该属性后不会变成一级菜单反之）
+			icon: 'md-alarm',
+			showAlways: true,
 		},
 	    component: Main,
 		children: [
@@ -117,7 +124,7 @@ export default [
 				meta: {
 					title: '2-1',
 					icon: 'md-alert',
-					showAlways: true,
+					//showAlways: true,
 				},
 				component: secondaryView,
 				children: [
@@ -126,19 +133,11 @@ export default [
 						name: 'c1-1',
 						meta: {
 							title: '三级菜单1',
-							icon: 'ios-paper',
+							icon: 'md-alarm',
+							access: [4,6,7]
 						},
 						component: () => import('@/views/testPages/page3.vue')
 					},
-//					{
-//						path: 'c1-2',
-//						name: 'c1-2',
-//						meta: {
-//							title: '三级菜单2',
-//							icon: 'ios-paper',
-//						},
-//						component: () => import('@/views/testPages/page2.vue')
-//					},
 				]
 			},
 		]
