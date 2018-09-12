@@ -4,6 +4,8 @@
 
 window._HOST = {//主机域名
 	
-	BASE_URL: '',//基础请求地址
+	BASE_URL: 'http://192.168.2.224/ucenter/public/',//基础请求地址
 	
 }
+
+window.USE_RACCESS = [4,'admin'];

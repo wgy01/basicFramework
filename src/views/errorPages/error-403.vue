@@ -1,5 +1,5 @@
 <template>
-	<div>401 没有访问该页面的权限</div>
+	<div>403 用户权限不足</div>
 </template>
 
 <script>

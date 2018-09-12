@@ -2,11 +2,9 @@
  * axios配置管理
  */
 
-import Vue from 'vue'//vue组件
-
-const vm = new Vue();//vue实例
-
-import axios from 'axios';//axios组件
+import Vue from 'vue'
+import axios from 'axios';
+const vm = new Vue();
 
 /*
 	---------------------vue内使用方式---------------------
@@ -25,28 +23,27 @@ import axios from 'axios';//axios组件
 
 //--------------------------------------------全局设置-------------------------------
 
-axios.defaults.baseURL = window._HOST.BASE_URL; //配置接口地址,在globalVariable.js
+axios.defaults.baseURL = window._HOST.BASE_URL; //配置接口基础地址,在globalVariable.js
 
-//axios.defaults.headers.post['content-Type'] = 'appliction/x-www-form-urlencoded';//不能打开这个配置,打开用不了FormData
-
-axios.defaults.timeout = 5000; //响应时间
+axios.defaults.timeout = 5000; //响应超时时间
 
 axios.defaults.withCredentials = true; //允许携带cookie,实现跨域登录	
 
 //-----------------在发送数据之前进行数据转换 , get不会转换,因为get走的是 parmas属性----------------------
 
-axios.defaults.transformRequest = function(_data) { //第一个参数_data是接收过来的数据
+axios.defaults.transformRequest = _data => { //第一个参数_data是接收过来的数据
 
-	var formData = new FormData(); //使用formData方式发送表单 否则程序接收不到表单变量（formData可以实现文件的异步上传）
+	let formData = new FormData(); //使用formData方式发送表单 否则程序接收不到表单变量（formData可以实现文件的异步上传）
 
-	for(let v in _data) { //for in 遍历数据进行转换
+	for(let item in _data) { //for in 遍历数据进行转换
 
-		formData.append(v, _data[v]);
+		formData.append(item, _data[item]);
 
 	}
+	
 	console.log('-->发送了数据:', _data);
 
-	// console.log('发送了数据:',formData);
+//	console.log('发送了数据:',formData);
 
 	return formData;
 
@@ -54,41 +51,39 @@ axios.defaults.transformRequest = function(_data) { //第一个参数_data是接
 
 //--------------------添加一个请求拦截器,每次请求都会拦截一次,但是尽量使用全局设置,方便每次使用不同的设置--------------
 
-axios.interceptors.request.use(function(_config) { //在请求发出之前对配置进行一些操作
+axios.interceptors.request.use(
+	
+	_config => { //在请求发出之前对配置进行一些操作
 
-	let config = _config;
-	//如果想每次请求的时候更改配置, 在这里增加config配置项
+		let config = _config;
+		
+		//如果想每次请求的时候更改配置, 在这里增加config配置项
+	
+		console.log('-->请求了URL(' + _config.method + '):', _config.baseURL + _config.url);
+	
+		return config;
 
-	console.log('-->请求了URL(' + _config.method + '):', _config.baseURL + _config.url);
-
-	return config;
-
-}, function(err) {
-
-});
+	},
+	
+	_err => {
+		console.log(_err);
+	}
+	
+);
 
 //------------------------添加一个响应拦截器----------------------
 
 axios.interceptors.response.use(
 
-	function(_res) { //在这里对返回的数据进行处理
+	_res => { //在这里对返回的数据进行处理
 		
 		console.log('<--返回了数据', _res.data);
-
-		if(_res.data.status == 200) { //获取数据成功
-			
-			
-			
-		}else { //获取数据失败
-
-			vm.$Message.error(_res.data.message);
-
-		}
 
 		return _res.data;
 
 	},
-	function(_err) { //处理错误
+	
+	_err => { //处理错误
 
 		console.log('>>>>>>发生了ajax错误');
 
@@ -106,8 +101,6 @@ axios.interceptors.response.use(
 			
 		}
 
-		// console.log('_err.config',_err.config);
-
 		console.log('url:', _err.config.url);
 
 		console.log('method:', _err.config.method);
@@ -118,13 +111,9 @@ axios.interceptors.response.use(
 
 		console.log('-------------------------------------------');
 
-		// return Promise.reject(_err);
-
 		return _err;
 
 	}
 );
-
-//axios组件完毕------------------------------------------
 
 export default axios
