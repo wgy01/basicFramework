@@ -166,7 +166,7 @@ export default {
 		
 	},
 	mounted() { //模板被渲染完毕之后执行
-		
+		console.log(this.menuList);
 	},
 	
 }

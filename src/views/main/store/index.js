@@ -69,7 +69,7 @@ const mainFrame = {
 	
 	getters: {//计算属性
 		
-		menuList: (state, getters) => getMenuByRouter(routers, [1,2]),//获取菜单列表
+		menuList: (state, getters) => getMenuByRouter(routers, window.USE_RACCESS),//获取菜单列表
 		
 	},
 	

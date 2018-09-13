@@ -10,9 +10,7 @@ import './main.less'
 import './abc.js'
 
 Vue.prototype.$axios = axios;//axios挂载到Vue
-
 Vue.use(iView);
-
 Vue.config.productionTip = false
 
 new Vue({

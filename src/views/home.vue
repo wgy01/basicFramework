@@ -75,7 +75,7 @@ export default {
 			//async、await错误处理
 			try {
 				
-			/*
+			/**
 			 * 
 			 * ------串行执行---------
 			 * console.log(await getAjaxData());

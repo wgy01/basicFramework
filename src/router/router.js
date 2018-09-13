@@ -134,7 +134,6 @@ export default [
 						meta: {
 							title: '三级菜单1',
 							icon: 'md-alarm',
-							access: [4,6,7]
 						},
 						component: () => import('@/views/testPages/page3.vue')
 					},
@@ -145,7 +144,7 @@ export default [
 	
 	{
 	    path: '/401',
-	    name: 'error_401',
+	    name: 'error-401',
 	    meta: {
 	      hideMenu: true,
 	    },
@@ -153,8 +152,17 @@ export default [
 	},
 	
 	{
+	    path: '/403',
+	    name: 'error-403',
+	    meta: {
+	      hideMenu: true,
+	    },
+	    component: () => import('@/views/errorPages/error-403.vue')
+	},
+	
+	{
 	    path: '*',
-	    name: 'error_404',
+	    name: 'error-404',
 	    meta: {
 	      hideMenu: true,
 	    },
