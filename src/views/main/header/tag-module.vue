@@ -20,17 +20,18 @@
 			
 			<div style="white-space:nowrap;display: inline-block;padding-left: 4px;">
 				
-				<Tag
-				v-for="item in tagList"
-				type="dot"
-				:name="item.name"
-				:closable="item.name === 'home' ? false : true"
-				:fade="false"
-				@on-close="tagClose(item)"
-				@click.native="tagClick(item)"
-				:color="$route.name === item.name ? 'primary' : 'default'">
-					{{item.meta.title}}
-				</Tag>
+				<template v-for="item in tagList">
+					<Tag
+					type="dot"
+					:name="item.name"
+					:closable="item.name === 'home' ? false : true"
+					:fade="false"
+					@on-close="tagClose(item)"
+					@click.native="tagClick(item)"
+					:color="$route.name === item.name ? 'primary' : 'default'">
+						{{item.meta.title}}
+					</Tag>
+				</template>
 				
 			</div>
 			

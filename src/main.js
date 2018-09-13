@@ -7,7 +7,7 @@ import axios from './axios'
 import 'iview/dist/styles/iview.css'
 import './main.less'
 
-import './abc.js'
+
 
 Vue.prototype.$axios = axios;//axios挂载到Vue
 Vue.use(iView);

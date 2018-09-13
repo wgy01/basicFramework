@@ -1,7 +1,16 @@
-let abc = {
-	
-	url: 666666
-	
+
+let aaa = 6666
+
+let bbb = {
+	url: 888
 }
 
-module.exports = abc;
+let fn = () => {
+	console.log(123123);
+}
+
+module.exports = {
+	aaa,
+	bbb,
+	fn
+}

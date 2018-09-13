@@ -4,6 +4,8 @@
 
 const path = require('path')
 
+const webpack = require('webpack')
+
 const resolve = dir => {
 	return path.join(__dirname, dir)
 }
@@ -25,9 +27,10 @@ module.exports = {
 
 	productionSourceMap: false, // 打包时不生成.map文件
 
-	chainWebpack: config => { //自定义路径配置
+	chainWebpack: config => {
 		config.resolve.alias
-			.set('@', resolve('src')) // key,value自行定义，比如.set('@@', resolve('src/components'))
+			.set('@', resolve('src'))//自定义路径配置, key,value自行定义，比如.set('@@', resolve('src/components'))
+			.set('Abc', resolve('src/abc.js'))
 	},
 
 	css: { // 配置css模块
@@ -36,6 +39,14 @@ module.exports = {
 				javascriptEnabled: true // 设置为true
 			}
 		}
+	},
+	
+	configureWebpack: {//配置webpack
+	    plugins: [//插件（全局调用）
+	     	new webpack.ProvidePlugin({
+			 	aa: resolve('src/abc.js'),//或者这样写  aa: 'Abc',
+			})
+	    ]
 	},
 	
 	pluginOptions: {// 第三方插件配置

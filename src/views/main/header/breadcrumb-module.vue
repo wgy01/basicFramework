@@ -16,10 +16,12 @@
 		<div style="white-space:nowrap;overflow: hidden;margin-right: 16px;">
 	
 			<Breadcrumb>
-		        <BreadcrumbItem v-for="item in breadCrumbList" :replace="true" :to="item.to ? '/' : ''">
-		        	<Icon :type="item.icon || item.meta.icon"></Icon>
-		        	<span>{{item.meta.title}}</span>
-		        </BreadcrumbItem>
+				<template v-for="item in breadCrumbList">
+			        <BreadcrumbItem :replace="true" :to="item.to ? '/' : ''">
+			        	<Icon :type="item.icon || item.meta.icon"></Icon>
+			        	<span>{{item.meta.title}}</span>
+			        </BreadcrumbItem>
+		        </template>
 		    </Breadcrumb>
 	
 		</div>
