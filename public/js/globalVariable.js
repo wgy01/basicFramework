@@ -8,4 +8,4 @@ window._HOST = {//主机域名
 	
 }
 
-window.USE_RACCESS = [4,'admin'];
+window.USE_RACCESS = [4,'admin'];//用户权限

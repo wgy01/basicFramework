@@ -2,12 +2,12 @@
  * 基础配置修改
  */
 
-const path = require('path')
+const path = require('path');//Node.js语法（引入处理文件路径的小工具模块）
 
 const webpack = require('webpack')
 
-const resolve = dir => {
-	return path.join(__dirname, dir)
+const resolve = dir => {//绝对路径
+	return path.join(__dirname, dir);//Node.js语法用于连接路径。该方法的主要用途在于，会正确使用当前系统的路径分隔符，Unix系统是"/"，Windows系统是"\"。
 }
 
 // 项目部署基础
@@ -28,9 +28,9 @@ module.exports = {
 	productionSourceMap: false, // 打包时不生成.map文件
 
 	chainWebpack: config => {
-		config.resolve.alias
+		config.resolve.alias //定义路径
 			.set('@', resolve('src'))//自定义路径配置, key,value自行定义，比如.set('@@', resolve('src/components'))
-			.set('Abc', resolve('src/abc.js'))
+			.set('_AXIOS', resolve('src/axios'))
 	},
 
 	css: { // 配置css模块
@@ -42,9 +42,9 @@ module.exports = {
 	},
 	
 	configureWebpack: {//配置webpack
-	    plugins: [//插件（全局调用）
-	     	new webpack.ProvidePlugin({
-			 	aa: resolve('src/abc.js'),//或者这样写  aa: 'Abc',
+	    plugins: [//插件
+	     	new webpack.ProvidePlugin({//全局变量插件
+			 	$ax: '_AXIOS',
 			})
 	    ]
 	},

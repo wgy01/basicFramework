@@ -63,8 +63,17 @@ export default {
     	
 	},
     mounted () {//模板被渲染完毕之后执行
-    	console.log(aa.aaa);
-		aa.fn();
+    	
+    	$ax.getAllAjaxData([
+    		{url: 'Center/myInfo'},
+    		{url: 'Center/companyInfoAjax'}
+    	],(aaa,bbb) => {
+    		
+    		console.log(aaa);
+    		console.log(bbb);
+    		
+    	});
+    	
 	},
 	
 	//=================组件路由勾子==============================
@@ -105,5 +114,4 @@ export default {
 </script>
 
 <style scoped lang="less">
-
 </style>

@@ -116,4 +116,40 @@ axios.interceptors.response.use(
 	}
 );
 
-export default axios
+/**
+ * 异步获取axios中的数据
+ */
+export const getAsyncAjaxData = (url = '',data = {}) => {
+	return new Promise(resolve => {
+		axios.post(url, data).then(response => {
+			resolve(response);
+		}).catch(error => console.log('发生了错误：'+error));
+	});
+}
+
+/**
+ * axios发起单个请求
+ * 
+ * @param {STRING} url 请求数据的路径
+ * @param {JSON} data 需要发送的数据
+ * @param {Function} fn 数据响应后的回调函数
+ */
+export const getAjaxData = (url = '', data = {}, fn) => {
+	axios.post(url, data).then(response => {
+		fn && fn(response);
+	}).catch(error => console.log('发生了错误：'+error));
+}
+
+/**
+ * axios同时发起多个请求
+ * 
+ * @param {Array} paramArr 多个请求参数的数组
+ * @param {Function(返回的数据1,返回的数据2...)} fn 数据响应后的回调函数
+ */
+export const getAllAjaxData = (paramArr = [], fn) => {
+	let newArr = [];
+	paramArr.forEach(item => {
+		newArr.push(axios.post(item.url || '',item.data || {}));
+	});
+	axios.all(newArr).then(axios.spread(fn)).catch(error => console.log('发生了错误：'+error));
+}

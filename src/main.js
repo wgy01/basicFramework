@@ -3,13 +3,9 @@ import App from './App.vue'
 import { router } from './router'
 import store from './store'
 import iView from 'iview'
-import axios from './axios'
 import 'iview/dist/styles/iview.css'
 import './main.less'
 
-
-
-Vue.prototype.$axios = axios;//axios挂载到Vue
 Vue.use(iView);
 Vue.config.productionTip = false
 
