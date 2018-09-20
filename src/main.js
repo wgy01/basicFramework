@@ -4,8 +4,9 @@ import { router } from './router'
 import store from './store'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
-import './main.less'
-
+import './less/main.less'
+import './less/basics.less'
+import '../public/js/global.js'
 Vue.use(iView);
 Vue.config.productionTip = false
 

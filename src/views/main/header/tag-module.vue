@@ -66,6 +66,7 @@
 import { objEqual } from '@/toolBox';
 
 export default {
+	name: 'tagModule',
 	components: { //组件模板
 		
 	},

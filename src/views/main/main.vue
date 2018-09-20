@@ -5,7 +5,6 @@
 		overflow: hidden;
 		height: 100vh;
 	}
-	
 	.layout-header-bar {
 		padding: 0 !important;
 		height: auto !important;
@@ -13,7 +12,6 @@
 		background: #fff;
 		box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
 	}
-	
 	.content-box{
 		width: 100%;
 		height: 100%;
@@ -77,6 +75,7 @@ import { getNewTagList } from '@/toolBox';
 import { mapMutations } from 'vuex';
 
 export default {
+	name: 'Main',
 	components: { //组件模板
 		menuSider,
 		breadcrumbModule,

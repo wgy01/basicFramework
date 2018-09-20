@@ -9,7 +9,7 @@
 
 <template>
 
-	<div style="height: 64px;display: flex;align-items: center;overflow: hidden;">
+	<div style="height: 53px;display: flex;align-items: center;overflow: hidden;">
 			
 		<Icon @click.native="collapsedSider" :class="rotateIcon" style="margin: 0 20px;cursor: pointer;flex-shrink: 0;" type="md-menu" size="28"></Icon>
 		
@@ -46,6 +46,7 @@
 <script>
 
 export default {
+	name: 'breadcrumbModule',
 	components: { //组件模板
 		
 	},

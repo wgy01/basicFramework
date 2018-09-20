@@ -1,0 +1,57 @@
+body,html{
+    font-size: 14px !important;
+    height: 100% !important;
+}
+#app{
+    height: 100%;
+}
+h1,h2,h3{
+    color: #17233d !important;
+}
+h1{
+    font-size: 16px !important;
+}
+h2{
+    font-size: 14px;
+}
+h3{
+    font-size: 12px;
+}
+p{
+    color: #515a6e;
+}
+.bold{//粗体
+    font-weight: bold;
+}
+
+.nowrap{//文字不换行
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    overflow:hidden;
+}
+
+/*--------------------滚动条样式-----------------------*/
+
+/*滚动条整体部分，可以设置宽度啥的*/ 
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    background: rgba(73,80,96,0.2);
+    /* 整个滚条背景 */
+}
+
+/*拖动条，滑块*/ 
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    background: rgba(0,0,0,0.2);
+    /* 滚条内嵌颜色 */
+}
+
+/*滚动条两端的按钮*/ 
+::-webkit-scrollbar-button {
+    display: none;
+    /* 两边端按钮颜色 */
+}

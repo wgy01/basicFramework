@@ -4,31 +4,14 @@
 		
 		<h1>首页</h1>
 		
+		<Button>Default</Button>
+		<Button type="primary">Primary</Button>
+		
 	</div>
 	
 </template>
 
 <script>
-
-import axios from 'axios';
-
-let getAjaxData = () => {
-	
-	return new Promise(resolve => {
-
-		axios.post('接口路径', {
-			
-		})
-		.then(response => {
-			resolve(response.data);
-		})
-		.catch(function(error) {
-			console.log(error);
-		});
-
-	});
-
-}
 
 export default {
 	components:{//组件模板
@@ -64,16 +47,6 @@ export default {
 	},
     mounted () {//模板被渲染完毕之后执行
     	
-    	$ax.getAllAjaxData([
-    		{url: 'Center/myInfo'},
-    		{url: 'Center/companyInfoAjax'}
-    	],(aaa,bbb) => {
-    		
-    		console.log(aaa);
-    		console.log(bbb);
-    		
-    	});
-    	
 	},
 	
 	//=================组件路由勾子==============================
@@ -85,28 +58,27 @@ export default {
 			//async、await错误处理
 			try {
 				
-			/**
-			 * 
-			 * ------串行执行---------
-			 * console.log(await getAjaxData());
-			 * ...
-			 * 
-			 * ---------并行：将多个promise直接发起请求（先执行async所在函数），然后再进行await操作。（执行效率高、快）----------
-			 * let abc = getAjaxData();//先执行promise函数
-			 * ...
-			 * console.log(await abc);
-			 * ...
-			*/
+				/**
+				 * 
+				 * ------串行执行---------
+				 * console.log(await getAjaxData());
+				 * ...
+				 * 
+				 * ---------并行：将多个promise直接发起请求（先执行async所在函数），然后再进行await操作。（执行效率高、快）----------
+				 * let abc = getAjaxData();//先执行promise函数
+				 * ...
+				 * console.log(await abc);
+				 * ...
+				*/
+				next(vm => {
+				
+				});
 				
 			} catch(err) {
 				console.log(err);
 			}
 			
 		})();
-		
-		next(vm => {
-			
-		});
 		
 	},
 	

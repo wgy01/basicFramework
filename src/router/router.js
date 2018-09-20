@@ -1,4 +1,3 @@
-
 import Main from '@/views/main/main.vue';
 import secondaryView from '@/components/secondary-view.vue';
 
@@ -14,7 +13,6 @@ import secondaryView from '@/components/secondary-view.vue';
  */
 
 export default [
-	
 	{
 	    path: '/login',
 	    name: 'login',
@@ -24,7 +22,6 @@ export default [
 	    },
 	    component: () => import('@/views/testPages/page2.vue')
   	},
-	
 	{
 		path: '/',
 		name: '_home',
@@ -141,32 +138,28 @@ export default [
 			},
 		]
 	},
-	
 	{
 	    path: '/401',
 	    name: 'error-401',
 	    meta: {
 	      hideMenu: true,
 	    },
-	    component: () => import('@/views/errorPages/error-401.vue')
+	    component: () => import('@/views/error-page/401.vue')
 	},
-	
 	{
 	    path: '/403',
 	    name: 'error-403',
 	    meta: {
 	      hideMenu: true,
 	    },
-	    component: () => import('@/views/errorPages/error-403.vue')
+	    component: () => import('@/views/error-page/401.vue')
 	},
-	
 	{
 	    path: '*',
 	    name: 'error-404',
 	    meta: {
 	      hideMenu: true,
 	    },
-	    component: () => import('@/views/errorPages/error-404.vue')
+	    component: () => import('@/views/error-page/404.vue')
 	}
-	
 ]
