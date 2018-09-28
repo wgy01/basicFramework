@@ -4,6 +4,21 @@
 		padding: 10px 0;
 		text-align: center;
 		cursor: pointer;
+		.tooltip-a{
+			display: block;
+			color: #fff;
+			padding: 8px 10px;
+			&:hover{
+				color: #5cadff;
+			}
+		}
+	}
+</style>
+<style lang="less">
+	.my-tooltip{
+		.ivu-tooltip-inner{
+			padding: 0 !important;
+		}
 	}
 </style>
 
@@ -12,6 +27,7 @@
 	<div>
 		
 		<!--展开-->
+		<!--v-show="!isCollapsed"-->
 		<Menu
 		ref="menuInstance"
 		v-show="!isCollapsed"
@@ -28,7 +44,7 @@
 					
 					<menu-sider-item v-if="showChildren(item)" :mainItem="item"></menu-sider-item>
 					
-					<MenuItem v-else :name="item.children[0].name">
+					<MenuItem v-else class="nowrap" :name="item.children[0].name">
 		                <Icon :type="item.icon || item.children[0].icon" />
 		                <span>{{item.meta.title || item.children[0].meta.title}}</span>
 		            </MenuItem>
@@ -39,7 +55,7 @@
 					
 					<menu-sider-item v-if="showChildren(item)" :mainItem="item"></menu-sider-item>
 					
-					<MenuItem v-else :name="item.name">
+					<MenuItem v-else class="nowrap" :name="item.name">
 		                <Icon :type="item.icon" />
 		                <span>{{item.meta.title}}</span>
 		            </MenuItem>
@@ -60,7 +76,7 @@
 			    <Tooltip v-else class="my-tooltip" placement="right">
 				    <Icon size="20" color="#fff" :type="item.icon || item.children[0].icon" />
 				    <div slot="content">
-				    	<a style="color: #fff;" @click="singleMenuMinClick(item.children[0])">{{item.meta.title || item.children[0].meta.title}}</a>
+				    	<a class="tooltip-a" @click="singleMenuMinClick(item.children[0])">{{item.meta.title || item.children[0].meta.title}}</a>
 				    </div>
 			    </Tooltip>
 			    

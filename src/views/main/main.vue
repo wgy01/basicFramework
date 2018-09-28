@@ -12,10 +12,11 @@
 		background: #fff;
 		box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
 	}
-	.content-box{
+	.main-content-box{
 		width: 100%;
 		height: 100%;
 		padding: 30px 16px 300px;
+		box-sizing: border-box;
 		overflow: auto;
 		position: absolute;
 		top: 0;
@@ -41,7 +42,7 @@
 				<Header class="layout-header-bar">
 					<div style="height: 100%;">
 						<!--面包屑导航-->
-						<breadcrumb-module :breadCrumbList="breadCrumbList" @clickIcon="collapsedSider"></breadcrumb-module>
+						<breadcrumb-module :breadCrumbList="breadCrumbList" :isCollapsed="isCollapsed" @clickIcon="collapsedSider"></breadcrumb-module>
 						<!--tag标签导航-->
 						<tag-module :tagList="tagNavList"></tag-module>
 					</div>
@@ -49,7 +50,7 @@
 				
 				<!--内容-->
 				<Content style="position: relative;">
-					<div class="content-box">
+					<div class="main-content-box">
 						<router-view/>
 					</div>
 				</Content>

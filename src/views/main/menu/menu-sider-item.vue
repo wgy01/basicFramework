@@ -1,6 +1,6 @@
 <template>
 	
-	<Submenu :name="mainItem.name">
+	<Submenu :name="mainItem.name" class="nowrap">
 		                	
         <template slot="title">
         	<Icon :type="mainItem.icon" />
