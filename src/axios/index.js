@@ -117,13 +117,16 @@ axios.interceptors.response.use(
 );
 
 /**
- * 异步获取axios中的数据
+ * 异步函数获取axios中的数据
  */
-export const getAsyncAjaxData = (url = '',data = {}) => {
+export const getAsyncAjaxData = (url = '', data = {}, errorCallBack) => {
 	return new Promise(resolve => {
 		axios.post(url, data).then(response => {
 			resolve(response);
-		}).catch(error => console.log('发生了错误：'+error));
+		}).catch(error => {
+			errorCallBack && errorCallBack(error);
+			console.log('!!!发生了错误!!!：' + error);
+		});
 	});
 }
 
@@ -133,11 +136,15 @@ export const getAsyncAjaxData = (url = '',data = {}) => {
  * @param {STRING} url 请求数据的路径
  * @param {JSON} data 需要发送的数据
  * @param {Function} fn 数据响应后的回调函数
+ * @param {Object} config 修改默认配置
  */
-export const getAjaxData = (url = '', data = {}, fn) => {
-	axios.post(url, data).then(response => {
+export const getAjaxData = (url = '', data = {}, fn, config = {}, errorCallBack) => {
+	axios.post(url, data, config).then(response => {
 		fn && fn(response);
-	}).catch(error => console.log('发生了错误：'+error));
+	}).catch(error => {
+		errorCallBack && errorCallBack(error);
+		console.log('!!!发生了错误!!!：' + error);
+	});
 }
 
 /**
@@ -152,4 +159,28 @@ export const getAllAjaxData = (paramArr = [], fn) => {
 		newArr.push(axios.post(item.url || '',item.data || {}));
 	});
 	axios.all(newArr).then(axios.spread(fn)).catch(error => console.log('发生了错误：'+error));
+}
+
+//使用qs插件序列化数据
+export const QSStringify = (params={}) => {
+	let str = '{'+qs.stringify(params, {encoder: function(str){
+		if(typeof(str) === 'string' && typeof(str) !== 'number'){
+			return '"'+ str +'"'
+		}else{
+			return str
+		}
+	}})+'}';
+	let jsonStr = str.replace(/\=/g, ':').replace(/\&/g, ',');
+  	let jsonData = JSON.parse(jsonStr);
+  	return jsonData;
+}
+
+//使用qs插件的Ajax提交数据
+export const getAjaxQsStringify = (url = '', data = {}, fn, config = {}, errorCallBack) => {
+	axios.post(url, QSStringify(data), config).then(response => {
+		fn && fn(response);
+	}).catch(error => {
+		errorCallBack && errorCallBack(error);
+		console.log('!!!发生了错误!!!：' + error);
+	});
 }

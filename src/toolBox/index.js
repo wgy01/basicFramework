@@ -131,7 +131,7 @@ export const getHomeRoute = routerList => {
  * 设置本地存储的标签导航列表
  */
 export const setTagNavListInLocalstorage = list => {
-  localStorage.tagNaveList = JSON.stringify(list);
+  sessionStorage.tagNaveList = JSON.stringify(list);
 }
 
 /**
@@ -139,7 +139,7 @@ export const setTagNavListInLocalstorage = list => {
  * @returns {Array} 其中的每个元素只包含路由原信息中的name, path, meta三项
  */
 export const getTagNavListFromLocalstorage = () => {
-  const list = localStorage.tagNaveList;
+  const list = sessionStorage.tagNaveList;
   return list ? JSON.parse(list) : [];
 }
 

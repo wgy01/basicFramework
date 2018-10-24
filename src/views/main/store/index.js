@@ -5,6 +5,8 @@ const mainFrame = {
 	
 	state: {//数据
 		
+		menuList: [],//菜单列表
+		
 		tagNavList: [],//tag标签列表
 		
 		homeRoute: getHomeRoute(routers),//name属性等于home路由数据
@@ -14,6 +16,10 @@ const mainFrame = {
 	},
 	
 	mutations: { //事件集,mutation是同步的
+		
+		getMenuList(state){//获取菜单列表
+			state.menuList = getMenuByRouter(routers, window.USE_RACCESS);
+		},
 		
 		setBreadCrumb (state, routeMatched) {//设置面包屑导航
 			
@@ -69,7 +75,7 @@ const mainFrame = {
 	
 	getters: {//计算属性
 		
-		menuList: (state, getters) => getMenuByRouter(routers, window.USE_RACCESS),//获取菜单列表
+		//menuList: (state, getters) => getMenuByRouter(routers, window.USE_RACCESS),//获取菜单列表
 		
 	},
 	

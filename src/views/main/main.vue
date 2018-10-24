@@ -104,6 +104,7 @@ export default {
 			'setBreadCrumb',
 	      	'setTagNavList',
 	      	'addTag',
+	      	'getMenuList'
 		]),
 		
 		collapsedSider() {//展开或收起左侧菜单
@@ -114,7 +115,8 @@ export default {
 	computed: { //计算属性
 		
 		menuList(){//菜单列表
-			return this.$store.getters.menuList;
+			//return this.$store.getters.menuList;
+			return this.$store.state.app.menuList;
 		},
 		
 		breadCrumbList(){//面包屑列表
@@ -141,6 +143,8 @@ export default {
 	//===================组件钩子===========================
 
 	created() { //实例被创建完毕之后执行
+		
+		this.getMenuList();//获取菜单列表
 		
 		/**
 	     * @description 初始化设置面包屑导航和标签导航
