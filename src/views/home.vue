@@ -4,15 +4,16 @@
 		
 		<h1>首页</h1>
 		
-		<Button>Default</Button>
-		<Button type="primary">Primary</Button>
+		{{checkedArea}}
+		
+		<Cascader v-model="checkedArea" :data="areaData" change-on-select filterable style="width: 300px;"></Cascader>
 		
 	</div>
 	
 </template>
 
 <script>
-
+import pcaa from 'area-data/pcaa';
 export default {
 	components:{//组件模板
 	},
@@ -27,6 +28,12 @@ export default {
 	},
     data () {//数据
         return {
+        	
+        	pcaa: pcaa,
+        	
+        	areaData: [],
+        	
+        	checkedArea: [],
         	
         }
     },
@@ -46,6 +53,46 @@ export default {
     	
 	},
     mounted () {//模板被渲染完毕之后执行
+    	
+      	let province = [];//省份
+    		
+		for(let provinceItem in this.pcaa["86"]){
+			
+			let provinceObj = {
+				label: this.pcaa["86"][provinceItem],
+    			value: provinceItem,
+    			children: []
+			}
+			
+			for(let cityItem in this.pcaa[provinceItem]){
+				
+				let cityObj = {
+					label: this.pcaa[provinceItem][cityItem],
+	    			value: cityItem,
+	    			children: []
+				}
+				
+				for(let districtItem in this.pcaa[cityItem]){
+					
+					let districtObj = {
+						label: this.pcaa[cityItem][districtItem],
+		    			value: districtItem,
+		    			children: []
+					}
+					
+					cityObj.children.push(districtObj);
+					
+				}
+				
+				provinceObj.children.push(cityObj);
+				
+			}
+			
+			province.push(provinceObj);
+			
+		}
+    	
+    	this.areaData = province;
     	
 	},
 	
