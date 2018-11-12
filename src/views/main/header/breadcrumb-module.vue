@@ -18,7 +18,7 @@
 		</div>
 		
 		<div style="margin: 0 46px 0 auto;flex-shrink: 0;">
-			<Dropdown placement="bottom-end">
+			<Dropdown :transfer="true" trigger="click" @on-click="dropdownClick" placement="bottom-end">
 		        <a style="display: inline-block;">
 	           		<Avatar icon="ios-person" />
 	           		<Icon size="20" type="md-arrow-dropdown" />
@@ -62,6 +62,10 @@ export default {
 		
 		collapsedSider() {
 			this.$emit('clickIcon');
+		},
+		
+		dropdownClick(name){
+			
 		},
 		
 	},
