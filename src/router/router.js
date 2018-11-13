@@ -27,7 +27,7 @@ export default [
 		name: '_home',
 	    redirect: '/home',
 	    meta: {//里面的参数用来做各种显示效果的判断（关键字段）
-	    	hideMenu: true,
+	    	//hideMenu: true,
 	    },
 	    component: Main,
 	    children: [
@@ -36,7 +36,7 @@ export default [
 		    	name: 'home',
 	            meta: {
 	            	title: '首页',
-	            	hideMenu: true,
+	            	//hideMenu: true,
 	            	icon: 'ios-paper',
 			    },
 	            component: () => import('@/views/home.vue')
@@ -102,40 +102,6 @@ export default [
 				},
 				component: () => import('@/views/testPages/page1.vue')
 			}
-		]
-	},
-	//三级路由
-	{
-		path: '/c',
-		name: 'c',
-		meta: {
-			title: '二级菜单2',
-			icon: 'md-alarm',
-			showAlways: true,
-		},
-	    component: Main,
-		children: [
-			{
-				path: 'c1',
-				name: 'c1',
-				meta: {
-					title: '2-1',
-					icon: 'md-alert',
-					//showAlways: true,
-				},
-				component: secondaryView,
-				children: [
-					{
-						path: 'c1-1',
-						name: 'c1-1',
-						meta: {
-							title: '三级菜单1',
-							icon: 'md-alarm',
-						},
-						component: () => import('@/views/testPages/page3.vue')
-					},
-				]
-			},
 		]
 	},
 	{

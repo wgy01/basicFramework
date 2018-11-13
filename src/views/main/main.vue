@@ -6,10 +6,11 @@
 		height: 100vh;
 	}
 	.layout-header-bar {
+		position: relative;
 		padding: 0 !important;
 		height: auto !important;
 		line-height: initial !important;
-		background: #fff;
+		background: #2B3648;
 		box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
 	}
 	.main-content-box{
@@ -22,31 +23,54 @@
 		top: 0;
 		left: 0;
 	}
+	.menu-collapsed-icon {
+		text-align: center;
+		width: 40px;
+		height: 40px;
+		line-height: 40px;
+		position: absolute;
+		right: -19px;
+		margin: auto;
+		top: 0;
+		bottom: 0;
+		border-radius: 100px;
+		background-color: rgba(0,0,0,.4);
+		cursor: pointer;
+		z-index: 9999;
+	}
+	.rotate-icon {
+		transform: rotate(-180deg);
+	}
 </style>
 
 <template>
 
-	<div class="layout">
+	<div style="height: 100%;">
 
-		<Layout>
+		<Layout style="height: 100%;">
 			
-			<!--左侧菜单-->
-			<Sider ref="siderInstance" hide-trigger collapsible :collapsed-width="64" v-model="isCollapsed" style="height: 100vh;">
-				<menu-sider ref='sideMenu' :menuList="menuList" :isCollapsed="isCollapsed"></menu-sider>
-			</Sider>
+			<!--头部菜单-->
+			<Header class="layout-header-bar">
+				<header-menu :menuList="menuList" @on-header-click-btn="headerClickBtn"></header-menu>
+			</Header>
+			<!--头部菜单-->
 			
-			<!--右侧-->
-			<Layout style="overflow: hidden;">
+			<!--下侧-->
+			<Layout style="overflow: hidden;height: 100%;">
 				
-				<!--头部-->
-				<Header class="layout-header-bar">
-					<div style="height: 100%;">
-						<!--面包屑导航-->
-						<breadcrumb-module :breadCrumbList="breadCrumbList" :isCollapsed="isCollapsed" @clickIcon="collapsedSider"></breadcrumb-module>
-						<!--tag标签导航-->
-						<tag-module :tagList="tagNavList"></tag-module>
-					</div>
-				</Header>
+				<!--菜单-->
+				<Sider ref="siderInstance" hide-trigger collapsible :collapsed-width="64" v-model="isCollapsed" style="height: 100%;position: relative;">
+					<Icon
+					color="#fff"
+					@click.native="collapsedSider"
+					:class="{'rotate-icon': isCollapsed}"
+					class="menu-collapsed-icon"
+					type="ios-arrow-back"
+					size="28">
+					</Icon>
+					<menu-sider ref='sideMenu' :menuList="$store.state.app.menuChildrenList" :isCollapsed="isCollapsed"></menu-sider>
+				</Sider>
+				<!--菜单-->
 				
 				<!--内容-->
 				<Content style="position: relative;">
@@ -54,8 +78,10 @@
 						<router-view/>
 					</div>
 				</Content>
+				<!--内容-->
 				
 			</Layout>
+			<!--下侧-->
 			
 		</Layout>
 
@@ -67,9 +93,7 @@
 	
 import menuSider from './menu/menu-sider.vue'
 
-import breadcrumbModule from './header/breadcrumb-module.vue';
-
-import tagModule from './header/tag-module.vue';
+import headerMenu from './header/header-menu.vue'
 
 import { getNewTagList } from '@/toolBox';
 
@@ -79,8 +103,7 @@ export default {
 	name: 'Main',
 	components: { //组件模板
 		menuSider,
-		breadcrumbModule,
-		tagModule,
+		headerMenu,
 	},
 	props: { //组件道具（参数）
 		/* ****属性用法*****
@@ -109,6 +132,10 @@ export default {
 		
 		collapsedSider() {//展开或收起左侧菜单
 			this.$refs.siderInstance.toggleCollapse();
+		},
+		
+		headerClickBtn(){
+			this.$refs.sideMenu.updateMenu();
 		},
 		
 	},

@@ -7,6 +7,8 @@ const mainFrame = {
 		
 		menuList: [],//菜单列表
 		
+		menuChildrenList: [],
+		
 		tagNavList: [],//tag标签列表
 		
 		homeRoute: getHomeRoute(routers),//name属性等于home路由数据

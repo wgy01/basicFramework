@@ -149,6 +149,13 @@ export default {
 			this.$router.push( { name: name } );
 		},
 		
+		updateMenu(){
+			this.$nextTick(() => {
+				this.$refs.menuInstance.updateOpened();
+				this.$refs.menuInstance.updateActiveName();
+			});
+		},
+		
 	},
 	computed: {//计算属性
 		
