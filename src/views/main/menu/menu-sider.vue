@@ -70,13 +70,13 @@
 		<div v-show="isCollapsed">
 			
 			<template v-for="item in menuList">
-			
+				
 				<menu-sider-min v-if="showChildren(item)"  @on-click="moreMenuMinClick" :mainItem="item" :hideTitle="true"></menu-sider-min>
 				
 			    <Tooltip v-else class="my-tooltip" placement="right">
 				    <Icon size="20" color="#fff" :type="item.icon || item.children[0].icon" />
 				    <div slot="content">
-				    	<a class="tooltip-a" @click="singleMenuMinClick(item.children[0])">{{item.meta.title || item.children[0].meta.title}}</a>
+				    	<a class="tooltip-a" @click="singleMenuMinClick(item)">{{item.meta.title || item.children[0].meta.title}}</a>
 				    </div>
 			    </Tooltip>
 			    

@@ -3,7 +3,8 @@
 	<div class="header-menu-box">
 		
 		<div class="left-box">
-			广西湖北商会
+			<p style="font-size: 14px;">广西湖北商会</p>
+			<p style="margin-top: 4px;font-size: 18px;">商会管理系统</p>
 		</div>
 		
 		<div class="menu-btn-box">
@@ -141,6 +142,9 @@ export default {
 			color: #fff;
 			flex-shrink: 0;
 			/*margin-right: 10px;*/
+			p{
+				color: #fff;
+			}
 		}
 		.right-box{
 			margin-right: 10px;

@@ -36,7 +36,7 @@
 		border-radius: 100px;
 		background-color: rgba(0,0,0,.4);
 		cursor: pointer;
-		z-index: 9999;
+		z-index: 99;
 	}
 	.rotate-icon {
 		transform: rotate(-180deg);
