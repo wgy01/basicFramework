@@ -27,7 +27,7 @@ axios.defaults.baseURL = window._HOST.BASE_URL; //配置接口基础地址,在gl
 
 axios.defaults.timeout = 5000; //响应超时时间
 
-axios.defaults.withCredentials = true; //允许携带cookie,实现跨域登录	
+axios.defaults.withCredentials = true; //**********允许携带cookie,实现跨域登录（非常重要）**************************
 
 //-----------------在发送数据之前进行数据转换 , get不会转换,因为get走的是 parmas属性----------------------
 
