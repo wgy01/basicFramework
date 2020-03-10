@@ -3,8 +3,7 @@
 	<div class="header-menu-box">
 		
 		<div class="left-box">
-			<p style="font-size: 14px;">广西湖北商会</p>
-			<p style="margin-top: 4px;font-size: 18px;">商会管理系统</p>
+			<p style="margin-top: 4px;font-size: 18px;">房务管理系统</p>
 		</div>
 		
 		<div class="menu-btn-box">
@@ -61,17 +60,25 @@ export default {
     		
     		this.$store.state.app.menuChildrenList = [];
     		
-    		if(current.children && current.children.length <= 1){
-    			this.$router.push({
-    				name: current.children[0].name
-    			});
-    		}else{
+    		if(current.children){
     			
-    			this.menuList.forEach(item => {
-					if(item.name == current.name){
-						this.$store.state.app.menuChildrenList = item.children;
-					}
-				});
+    			if(current.children.length > 0){
+    				
+    				this.$router.push({
+						name: current.children[0].name
+					});
+    				
+    			}
+    			
+    			if(current.children.length > 1){
+    				
+    				this.menuList.forEach(item => {
+						if(item.name == current.name){
+							this.$store.state.app.menuChildrenList = item.children;
+						}
+					});
+    				
+    			}
     			
     		}
     		
@@ -147,10 +154,14 @@ export default {
 			}
 		}
 		.right-box{
-			margin-right: 10px;
+			margin-right: 16px;
 			color: #fff;
 			flex-shrink: 0;
+			cursor: pointer;
 			/*margin-left: 10px;*/
+		}
+		.right-box:hover{
+			color: #5cadff;
 		}
 		.menu-btn-box{
 			width: 100%;

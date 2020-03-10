@@ -59,7 +59,7 @@
 			<Layout style="overflow: hidden;height: 100%;">
 				
 				<!--菜单-->
-				<Sider ref="siderInstance" hide-trigger collapsible :collapsed-width="64" v-model="isCollapsed" style="height: 100%;position: relative;">
+				<Sider v-show="!hideMenuBar" ref="siderInstance" hide-trigger collapsible :collapsed-width="64" v-model="isCollapsed" style="height: 100%;position: relative;">
 					<Icon
 					color="#fff"
 					@click.native="collapsedSider"
@@ -119,6 +119,8 @@ export default {
 			
 			isCollapsed: false,
 			
+			hideMenuBar: false,
+			
 		}
 	},
 	methods: { //方法
@@ -159,6 +161,8 @@ export default {
 		
 		'$route'(newRoute){
 			
+			this.hideMenuBar = newRoute.meta.hideMenuBar || false;
+			
 			this.setBreadCrumb(newRoute.matched);
 			
         	this.setTagNavList(getNewTagList(this.tagNavList, newRoute));
@@ -181,6 +185,8 @@ export default {
 	    this.addTag({route: this.$store.state.app.homeRoute});
 	    
 	    this.setBreadCrumb(this.$route.matched);
+	    
+	    this.hideMenuBar = this.$route.meta.hideMenuBar || false;
 		
 	},
 	mounted() { //模板被渲染完毕之后执行

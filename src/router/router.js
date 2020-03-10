@@ -9,99 +9,83 @@ import secondaryView from '@/components/secondary-view.vue';
  * @param {Boolean : false} showAlways 设置路由永远显示为二级菜单
  * @param {Boolean : false} hideBreadcrumb 设置不显示在面包屑导航中
  * @param {String : '定向到xxx路由的name'} highlightName 点击该路由后在菜单中高亮重定向
+ * @param {Boolean : false} hideMenuBar 隐藏左侧菜单栏
  * 
  */
 
 export default [
+//	{
+//		path: '/',
+//		name: '_home',
+//	    redirect: '/home',
+//	    meta: {//里面的参数用来做各种显示效果的判断（关键字段）
+//	    },
+//	    component: Main,
+//	    children: [
+//		    {
+//		    	path: 'home',
+//		    	name: 'home',
+//	            meta: {
+//	            	title: '商品管理',
+//	            	hideMenuBar: true
+//			    },
+//	            component: () => import('@/views/goods/index.vue')
+//		    }
+//		]
+//	},
 	{
-	    path: '/login',
-	    name: 'login',
-	    meta: {
-	      title: 'Login - 登录',
-	      hideMenu: true,
-	    },
-	    component: () => import('@/views/testPages/page2.vue')
-  	},
-	{
-		path: '/',
-		name: '_home',
-	    redirect: '/home',
-	    meta: {//里面的参数用来做各种显示效果的判断（关键字段）
-	    	//hideMenu: true,
-	    },
-	    component: Main,
-	    children: [
-		    {
-		    	path: 'home',
-		    	name: 'home',
-	            meta: {
-	            	title: '首页',
-	            	//hideMenu: true,
-	            	icon: 'ios-paper',
-			    },
-	            component: () => import('@/views/home.vue')
-		    }
-		]
-	},
-	//一级路由
-	{
-		path: '/a',
-		name: 'a',
+		path: '/material',
+		name: 'material',
 		meta: {
-			hideBreadcrumb: true,//面包屑导航中隐藏
+			title: '物料管理',
 		},
 	    component: Main,
 		children: [
 			{
-				path: 'a1',
-				name: 'a1',
+				path: 'material_index',
+				name: 'material_index',
 				meta: {
-					title: '一级菜单1-1',
-					icon: 'md-alarm',
+					hideMenuBar: true
 				},
-				component: () => import('@/views/testPages/page1.vue')
+				component: resolve => require(['@/views/material/index.vue'], resolve), // 懒加载
 			}
 		]
 	},
-	//二级路由
 	{
-		path: '/b',
-		name: 'b',
+		path: '/organize',
+		name: 'organize',
 		meta: {
-			title: '二级菜单111',
-			icon: 'md-alarm',
+			title: '组织',
 		},
 	    component: Main,
 		children: [
 			{
-				path: 'b1',
-				name: 'b1',
+				path: 'class',
+				name: 'class',
 				meta: {
-					title: '1-1',
-					icon: 'md-alarm',
+					title: '部门管理',
+					icon: 'ios-more',
 				},
-				component: () => import('@/views/testPages/page1.vue')
+				component: resolve => require(['@/views/user/class.vue'], resolve), // 懒加载
 			},
 			{
-				path: 'b2',
-				name: 'b2',
+				path: 'user',
+				name: 'user',
 				meta: {
-					title: '1-2',
-					icon: 'md-alarm',
+					title: '员工管理',
+					icon: 'ios-more',
 				},
-				component: () => import('@/views/testPages/page2.vue')
+				component: resolve => require(['@/views/user/user.vue'], resolve), // 懒加载
 			},
 			{
-				path: 'b3',
-				name: 'b3',
+				path: 'role',
+				name: 'role',
 				meta: {
-					title: '1-3',
-					icon: 'ios-paper',
-					hideMenu: true,
-					highlightName: 'b2',
+					title: '角色管理',
+					icon: 'ios-more',
 				},
-				component: () => import('@/views/testPages/page1.vue')
-			}
+				component: resolve => require(['@/views/user/role.vue'], resolve), // 懒加载
+			},
 		]
 	},
 	{

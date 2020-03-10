@@ -7,7 +7,7 @@ const mainFrame = {
 		
 		menuList: [],//菜单列表
 		
-		menuChildrenList: [],
+		menuChildrenList: [], // 子菜单列表
 		
 		tagNavList: [],//tag标签列表
 		

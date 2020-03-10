@@ -27,7 +27,7 @@
 	<div>
 		
 		<!--展开-->
-		<!--v-show="!isCollapsed"-->
+		
 		<Menu
 		ref="menuInstance"
 		v-show="!isCollapsed"
@@ -73,7 +73,7 @@
 				
 				<menu-sider-min v-if="showChildren(item)"  @on-click="moreMenuMinClick" :mainItem="item" :hideTitle="true"></menu-sider-min>
 				
-			    <Tooltip v-else class="my-tooltip" placement="right">
+			    <Tooltip v-else class="my-tooltip" placement="right" @click.native="singleMenuMinClick(item)">
 				    <Icon size="20" color="#fff" :type="item.icon || item.children[0].icon" />
 				    <div slot="content">
 				    	<a class="tooltip-a" @click="singleMenuMinClick(item)">{{item.meta.title || item.children[0].meta.title}}</a>
